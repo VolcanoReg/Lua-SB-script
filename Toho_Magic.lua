@@ -2675,6 +2675,7 @@ Animator.Parent = player.Character.Humanoid
 
 timestopper = player
 timestoptime = 4
+_G.timestoptime = timestoptime
 
 --Visual Event
 wait(0.25)
@@ -2755,7 +2756,7 @@ visual_event = function()
 	
 	ticking()
 	
-	wait(timestoptime)
+	wait(_G.timestoptime)
 	
 	game.Debris:AddItem(colorcorr,2)
 	
@@ -2866,7 +2867,7 @@ timestop_event = function()
 		end
 	end)
 	
-	wait(timestoptime+1.65)
+	wait(_G.timestoptime+1.65)
 	TsState = false
 	workspace.ChildAdded:Connect(function()end)
 
@@ -2899,7 +2900,7 @@ function Timestop()
 		
 		coroutine.resume(coroutine.create(function() 
 			cd=true
-			wait(timestoptime)
+			wait(_G.timestoptime)
 			cd=false 
 		end))
 		
