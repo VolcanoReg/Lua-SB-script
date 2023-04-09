@@ -2652,7 +2652,263 @@ wait(0.13)
 evadecooldown = false
 end
 
+---------------------------------------------------------------------------------------------------------------------------
+--[[
+Timestopper Watch by VolcanoReg
+Beside Texture
+Everything done by VolcanoReg himself
+Feel free to use the script
+Be Responsible
 
+]]
+
+local plr = "VolcanoReg"
+local player = game.Players[plr]
+
+local anima = Instance.new("Animation")
+anima.Parent = TS
+anima.AnimationId = "rbxassetid://7326208423"
+
+local Animator = Instance.new("Animator")
+Animator.Name = "Animator"
+Animator.Parent = player.Character.Humanoid
+
+timestopper = player
+timestoptime = 4
+
+--Visual Event
+wait(0.25)
+local tween = game:GetService("TweenService")
+tween_prop = {}
+
+info_in = TweenInfo.new(1,Enum.EasingStyle.Elastic,Enum.EasingDirection.In)
+info_out = TweenInfo.new(1,Enum.EasingStyle.Elastic,Enum.EasingDirection.Out)
+
+function sound_visual(parent,sound_id,volume,longtime,distortion)
+	local a = Instance.new("Sound")
+    --overriding sound function to play at player's character
+	a.Parent=player.Character.Head
+	a.SoundId=tostring("rbxassetid://"..sound_id)
+	a.Volume=volume
+	a.Name="Sakuya_Timestop"
+	
+	local b = Instance.new("DistortionSoundEffect")
+	b.Name="BASS"
+	b.Level=distortion
+	b.Parent=a
+	a:Play()
+	game.Debris:AddItem(a,longtime)
+end
+
+local animator = Animator
+local anim_play = animator:LoadAnimation(anima) -- need object
+
+function ticking()
+    sound_visual(workspace,850256806,5,0)
+end
+
+visual_event = function()
+	-- Cannot Be used in SB
+	local colorcorr = Instance.new("ColorCorrectionEffect")
+	colorcorr.Enabled = true
+	colorcorr.Parent = game.Lighting
+	
+	anim_play:Play()
+	wait(0.85)
+	wait(1)
+	
+	coroutine.resume(coroutine.create(function()
+		local tool_p = Player.Character.Torso.Position
+		local part = Instance.new("Part")
+		part.Shape = "Ball"
+		part.Name = "TSField"
+		part.Parent = game.Workspace
+		part.CanCollide = false
+		part.CanTouch = true
+		part.Massless = true
+		part.Position = Vector3.new(tool_p.X,tool_p.Y,tool_p.Z)
+		part.Material = Enum.Material.Neon
+		local info_p = TweenInfo.new(0.2,Enum.EasingStyle.Linear,Enum.EasingDirection.Out)
+		local Tween_Prop = {}
+		Tween_Prop.Size = Vector3.new(100,100,100)
+		Tween_Prop.Transparency = 1
+		local info_pl = tween:Create(part,info_p,Tween_Prop)
+		wait(0.1)
+		info_pl:Play()
+		game.Debris:AddItem(part,2)
+	end))
+	
+	sound_visual(workspace,743521691,2,4,0.5)
+	sound_visual(workspace,743521656,2,4,0.5)
+	
+	wait(0.1)
+	
+	
+	colorcorr.Brightness = 1
+	
+	tween_prop.Brightness = 0
+	tween_prop.Contrast = 1
+	tween_prop.Saturation = -1
+	tween_prop.TintColor = Color3.fromRGB(255,50,50)
+	local a = tween:Create(colorcorr,info_out,tween_prop)
+	a:Play()
+	
+	ticking()
+	
+	wait(timestoptime)
+	
+	game.Debris:AddItem(colorcorr,2)
+	
+	sound_visual(workspace,743521691,2,2)
+	wait(0.2)
+	
+	tween_prop.Contrast = 0
+	tween_prop.Saturation = 0
+	tween_prop.TintColor = Color3.fromRGB(255,255,255)
+	local b = tween:Create(colorcorr,info_in,tween_prop)
+	b:Play()
+end
+
+--Timestop Script
+--[[
+	When Tool is clicked, upper script will fire a bindable event to this script, then
+	this script will anchored part and paused music, anchored part will be stored on 
+	Anchored as ObjectValue, Same with paused music(At The Moment, will be using Table.Insert()).
+	
+	After sometimes, the anchored part will be unanchored and the paused sound will be
+	played again.
+]]
+--local event = script.Parent.timestop --Bindable Event not needed
+Anchored = {}
+Soundstopped = {}
+TsState =false
+
+for _,v in next,player.Character:GetDescendants() do
+    if v.ClassName == "Part" then
+        local tags = Instance.new("BoolValue")
+        tags.Name = 'owner'
+        tags.Parent = v
+        tags.Value = true
+    end
+end
+player.Character.DescendantAdded:Connect(function(obj)
+    if obj.ClassName == "Part" then
+        local tags = Instance.new("BoolValue")
+        tags.Name = 'owner'
+        tags.Parent = v
+        tags.Value = true
+    end
+end)
+
+function cframed(part)
+	local cf = part.CFrame
+	repeat
+		wait(1/2048)
+		part.CFrame = cf
+	until TsState == false
+end
+
+function RemoteEventOff(remote)
+	print(remote.Name)
+	repeat
+		wait(1/2048)
+		remote.OnServerEvent:Connect(function(plr,msg) plr.Character.Humanoid:Destroy() end)
+	until TsState == false
+	remote.OnServerEvent:Connect(function()end)
+end
+
+timestop_event = function()
+	TsState = true
+	for i,v in next,workspace:GetDescendants() do
+		if v.ClassName == "Model" and v.Name ~= timestopper.Name then
+			for i,part in pairs(v:GetDescendants()) do
+				if part.ClassName == "Part" and part:FindFirstChild("owner") == nil then
+					if part.Anchored == false then
+						part.Anchored = true
+						--anchor(part)
+						table.insert(Anchored,#Anchored+1,part)
+					end
+				end
+			end
+		elseif v.ClassName == "Sound" then
+			if v.IsPlaying == true and v.Name ~= ("Sakuya_Timestop" or "Sakuya_Timestop_Ticking") then
+				v:Pause()
+				--paused(v)
+				table.insert(Soundstopped,#Soundstopped+1,v)
+			end
+		elseif v.ClassName == "Part" and v.Name ~= "TSField" and v:FindFirstChild("owner") == nil then
+			if v.Anchored == false then
+				v.Anchored = true
+				--anchor(v)
+				table.insert(Anchored,#Anchored+1,v)
+			end
+			coroutine.resume(coroutine.create(function() pcall(function() cframed(v) end) end))
+		end
+	end
+	--[[for i,remote in pairs(game:GetDescendants()) do
+		if remote.ClassName == "RemoteEvent" then
+			coroutine.resume(coroutine.create(function() pcall(function() RemoteEventOff(remote) end) end))
+		end
+	end]]
+	workspace.ChildAdded:Connect(function(obj)
+		if obj.ClassName == "Part" then
+			if obj.Anchored == false then
+				obj.Anchored = true
+				--anchor(obj)
+				table.insert(Anchored,#Anchored+1,obj)
+			end
+		elseif obj.ClassName == "Sound" then
+			if obj.IsPlaying == true and obj.Name ~= "Sakuya_Timestop" then
+				obj:Pause()
+				--paused(obj)
+				table.insert(Soundstopped,#Soundstopped+1,obj)
+			end
+		end
+	end)
+	
+	wait(timestoptime+1.65)
+	TsState = false
+	workspace.ChildAdded:Connect(function()end)
+
+	--[[for i,v in pairs(script.Anchored:GetChildren()) do
+		v.Value.Anchored = false
+	end
+	script.Anchored:ClearAllChildren()
+	
+	for i,v in pairs(script.SoundPaused:GetChildren()) do
+		v.Value:Play()
+		v:Play()
+	end
+	script.SoundPaused:ClearAllChildren() ]]--
+	for i,v in next,Anchored do
+		v.Anchored = false
+	end
+	Anchored = {}
+	
+	for i,v in next,Soundstopped do
+		v:Resume()
+	end
+	Soundstopped = {}
+end
+
+-- Main Script
+cd = false
+
+function Timestop()
+	if cd == false then	
+		
+		coroutine.resume(coroutine.create(function() 
+			cd=true
+			wait(timestoptime)
+			cd=false 
+		end))
+		
+        coroutine.resume(coroutine.create(function() visual_event() end))
+		wait(1.85)
+        coroutine.resume(coroutine.create(function() timestop_event() end))
+	else
+	end
+end
 ---------------------------------------------------------------------------------------------------------------------------
 local MouseControl
 if Player.PlayerGui:FindFirstChild("Mouser") == nil then
@@ -2704,6 +2960,8 @@ KeyDown = function(key)
         Rdash()
     elseif key == 'r' and attack == false then
         rotball()
+    elseif key == 't' and attack == false then
+        Timestop()
     end
 end
  
