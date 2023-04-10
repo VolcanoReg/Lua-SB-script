@@ -3045,8 +3045,7 @@ end)
 
 Humanoid.Health = 1000
 while true do
-    --swait()
-    task.wait(1/60)
+    swait()
     sine = sine + change
     local torvel=(RootPart.Velocity*Vector3.new(1,0,1)).magnitude
     local velderp=RootPart.Velocity.y
