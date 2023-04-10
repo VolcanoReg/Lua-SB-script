@@ -2916,6 +2916,25 @@ function Timestop()
 	end
 end
 ---------------------------------------------------------------------------------------------------------------------------
+Player.Character.Humanoid.HealthChange:Connect(function(health)
+	local r = math.floor(math.random(1,2))
+	if r == 1 then
+		Player.Character.Humanoid.Health = Player.Character.Humanoid.Health + health
+		r = math.floor(math.random(1,2))
+		if r == 1 then
+			Ldash()
+		elseif r == 2 then
+			Rdash()
+		end
+	elseif r == 2 then
+		return
+	end
+
+end)
+
+
+
+------------------------------------------------------------------------------------------------------------------------------
 local MouseControl
 if Player.PlayerGui:FindFirstChild("Mouser") == nil then
 	print("MouserNotFound")
