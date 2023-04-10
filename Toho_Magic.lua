@@ -2567,7 +2567,7 @@ function rotball()
 		Explode.Visible = false
 		Explode.Hit:connect(function(hit)
 			if hit.Parent:FindFirstChild("Humanoid")~=nil and hit.Parent:FindFirstChild("IsHit")==nil then
-				Dmgfunc(hit.Parent,hit.MaxHealt/2,hit.MaxHealth,0)
+				Dmgfunc(hit.Parent,hit.MaxHealth/2,hit.MaxHealth,0)
 			end
 		end)
 	end)
