@@ -2355,7 +2355,7 @@ for i = 0,2.3,0.1 do
 	Bullet.Anchored = true
 	local Explode = Instance.new("Explosion") 
 	Explode.Position = Bullet.Position
-	Explode.Parent = Workspace 
+	Explode.Parent = workspace 
 	Explode.BlastPressure = 0
 	Explode.BlastRadius = Bullet.Size.X	
 	Explode.Visible = false
@@ -2402,35 +2402,35 @@ function shoot()
     
     MagicWave4(BrickColor.new("Dark indigo"), cf(RootPart.Position) * cf(0, -1, 0) * euler(0, math.random(-50, 50), 0), 1, 1, 1, 0.5, 0.3, 0.5, 0.04)
     
- MagicWave4(BrickColor.new("Lime green"), RootPart.CFrame * cf(0, -1, 0) * euler(0, math.random(-50, 50), 0), 1, 1, 1, 1, 0.5, 1, 0.05)
+	MagicWave4(BrickColor.new("Lime green"), RootPart.CFrame * cf(0, -1, 0) * euler(0, math.random(-50, 50), 0), 1, 1, 1, 1, 0.5, 1, 0.05)
     attack = true
-                    local thing = Instance.new("BodyGyro",RootPart)
-thing.D = 350
-thing.P = 6000
-thing.MaxTorque = vt(100000,math.huge,0)
-thing.CFrame = CFrame.new(RootPart.Position,mouse.Hit.p)
-      for i = 0,2,0.16 do
-        swait()
-Torso.Weld.C0 = clerp(Torso.Weld.C0, CFrame.new(0, -1, 0) * CFrame.Angles(math.rad(0), math.rad(90), math.rad(0)), 0.2)
-Torso.Neck.C0 = clerp(Torso.Neck.C0,necko *angles(math.rad(0),math.rad(0),math.rad(-80)),.2)
-RW.C0 = clerp(RW.C0, CFrame.new(1.5, 0.5, 0) * angles(math.rad(90), math.rad(0), math.rad(90)),.2)
-LW.C0 = clerp(LW.C0, CFrame.new(-1.5, 0.5, 0) * angles(math.rad(-20), math.rad(0), math.rad(-30)),.2)
-LeftLeg.Weld.C0 = clerp(LeftLeg.Weld.C0, CFrame.new(-0.73, -1.0, 0) * CFrame.Angles(math.rad(-25), math.rad(-66), math.rad(-25)), 0.1)
-RightLeg.Weld.C0 = clerp(RightLeg.Weld.C0, CFrame.new(0.6, -1.0, 0)  * CFrame.Angles(math.rad(0), math.rad(-83), math.rad(0)), 0.1)
-end
-shooting = true
+    local thing = Instance.new("BodyGyro",RootPart)
+	thing.D = 350
+	thing.P = 6000
+	thing.MaxTorque = vt(100000,math.huge,0)
+	thing.CFrame = CFrame.new(RootPart.Position,mouse.Hit.p)
+    for i = 0,2,0.16 do
+    	swait()
+		Torso.Weld.C0 = clerp(Torso.Weld.C0, CFrame.new(0, -1, 0) * CFrame.Angles(math.rad(0), math.rad(90), math.rad(0)), 0.2)
+		Torso.Neck.C0 = clerp(Torso.Neck.C0,necko *angles(math.rad(0),math.rad(0),math.rad(-80)),.2)
+		RW.C0 = clerp(RW.C0, CFrame.new(1.5, 0.5, 0) * angles(math.rad(90), math.rad(0), math.rad(90)),.2)
+		LW.C0 = clerp(LW.C0, CFrame.new(-1.5, 0.5, 0) * angles(math.rad(-20), math.rad(0), math.rad(-30)),.2)
+		LeftLeg.Weld.C0 = clerp(LeftLeg.Weld.C0, CFrame.new(-0.73, -1.0, 0) * CFrame.Angles(math.rad(-25), math.rad(-66), math.rad(-25)), 0.1)
+		RightLeg.Weld.C0 = clerp(RightLeg.Weld.C0, CFrame.new(0.6, -1.0, 0)  * CFrame.Angles(math.rad(0), math.rad(-83), math.rad(0)), 0.1)
+	end
+	shooting = true
 
-while shooting == true do
-    swait(2.5)
-        thing.CFrame = CFrame.new(RootPart.Position,mouse.Hit.p)
-            Torso.Velocity =  RootPart.CFrame.lookVector * -13
-        if math.random(1,2) == 1 then
-    Bullets(handee,math.random(1,2),g,math.random(220,520),5.5,false,false)
-            MagicBlock(BrickColor.new("Lime green"), RightArm.CFrame * cf(math.random(-100, 100) / 100, -math.random(0, 700) / 100, math.random(-100, 100) / 100), math.random(30, 80) / 100, math.random(30, 80) / 100, math.random(30, 80) / 100, 0.5, 0.5, 0.5, 0.05)
-else
-    Bullets(handee,math.random(1,2),r,math.random(200,520),6.3,false,false)
-            MagicBlock(BrickColor.new("Dark indigo"), RightArm.CFrame * cf(math.random(-100, 100) / 100, -math.random(0, 700) / 100, math.random(-100, 100) / 100), math.random(30, 80) / 100, math.random(30, 80) / 100, math.random(30, 80) / 100, 0.5, 0.5, 0.5, 0.05)
-end
+	while shooting == true do
+	    swait(2.5)
+	    thing.CFrame = CFrame.new(RootPart.Position,mouse.Hit.p)
+	    Torso.Velocity =  RootPart.CFrame.lookVector * -13
+	    if math.random(1,2) == 1 then
+	    	Bullets(handee,math.random(1,2),g,math.random(220,520),5.5,false,false)
+	    	MagicBlock(BrickColor.new("Lime green"), RightArm.CFrame * cf(math.random(-100, 100) / 100, -math.random(0, 700) / 100, math.random(-100, 100) / 100), math.random(30, 80) / 100, math.random(30, 80) / 100, math.random(30, 80) / 100, 0.5, 0.5, 0.5, 0.05)
+		else
+	    	Bullets(handee,math.random(1,2),r,math.random(200,520),6.3,false,false)
+	    	MagicBlock(BrickColor.new("Dark indigo"), RightArm.CFrame * cf(math.random(-100, 100) / 100, -math.random(0, 700) / 100, math.random(-100, 100) / 100), math.random(30, 80) / 100, math.random(30, 80) / 100, math.random(30, 80) / 100, 0.5, 0.5, 0.5, 0.05)
+	end
 end
 
 attack = false
@@ -2453,7 +2453,7 @@ function SCB()
     
     MagicWave4(BrickColor.new("Dark indigo"), cf(RootPart.Position) * cf(0, -1, 0) * euler(0, math.random(-50, 50), 0), 1, 1, 1, 0.5, 0.3, 0.5, 0.04)
     
- MagicWave4(BrickColor.new("Lime green"), RootPart.CFrame * cf(0, -1, 0) * euler(0, math.random(-50, 50), 0), 1, 1, 1, 1, 0.5, 1, 0.05)
+ 	MagicWave4(BrickColor.new("Lime green"), RootPart.CFrame * cf(0, -1, 0) * euler(0, math.random(-50, 50), 0), 1, 1, 1, 1, 0.5, 1, 0.05)
     attack = true
 
 local Card = Instance.new('Part',Character)
@@ -2515,75 +2515,83 @@ if Humanoid.WalkSpeed == 32 then
 
 
 function rotball()
-   
-
     so("http://roblox.com/asset/?id=925333540",Torso,1.1,1)
     MagicBlock4(BrickColor.new("Lime green"), RootPart.CFrame * cf(0, 0, 0), 1, 1, 1, 16.2, 16.2, 16.2, 0.04)
-
     MagicCircle4(BrickColor.new("Dark indigo"), RootPart.CFrame * cf(0, 0, 0), 1, 1, 1, 19.2, 19.2, 19.2, 0.03)
-    
     MagicWave4(BrickColor.new("Dark indigo"), cf(RootPart.Position) * cf(0, -1, 0) * euler(0, math.random(-50, 50), 0), 1, 1, 1, 0.5, 0.3, 0.5, 0.04)
-    
- MagicWave4(BrickColor.new("Lime green"), RootPart.CFrame * cf(0, -1, 0) * euler(0, math.random(-50, 50), 0), 1, 1, 1, 1, 0.5, 1, 0.05)
+ 	MagicWave4(BrickColor.new("Lime green"), RootPart.CFrame * cf(0, -1, 0) * euler(0, math.random(-50, 50), 0), 1, 1, 1, 1, 0.5, 1, 0.05)
     attack = true
 
+    local thing = Instance.new("BodyGyro",RootPart)
+	thing.D = 350
+	thing.P = 6000
+	thing.MaxTorque = vt(100000,math.huge,0)
+	thing.CFrame = CFrame.new(RootPart.Position,mouse.Hit.p)
 
-
-                       local thing = Instance.new("BodyGyro",RootPart)
-thing.D = 350
-thing.P = 6000
-thing.MaxTorque = vt(100000,math.huge,0)
-thing.CFrame = CFrame.new(RootPart.Position,mouse.Hit.p)
-      for i = 0,2,0.16 do
+    for i = 0,2,0.16 do
         swait()
         thing.CFrame = CFrame.new(RootPart.Position,mouse.Hit.p)
-Torso.Weld.C0 = clerp(Torso.Weld.C0, CFrame.new(0, -1, 0) * CFrame.Angles(math.rad(0), math.rad(90), math.rad(0)), 0.2)
-Torso.Neck.C0 = clerp(Torso.Neck.C0,necko *angles(math.rad(0),math.rad(0),math.rad(-80)),.2)
-RW.C0 = clerp(RW.C0, CFrame.new(1.5, 0.5, 0) * angles(math.rad(90), math.rad(0), math.rad(90)),.2)
-LW.C0 = clerp(LW.C0, CFrame.new(-1.5, 0.5, 0) * angles(math.rad(-20), math.rad(0), math.rad(-30)),.2)
-LeftLeg.Weld.C0 = clerp(LeftLeg.Weld.C0, CFrame.new(-0.73, -1.0, 0) * CFrame.Angles(math.rad(-25), math.rad(-66), math.rad(-25)), 0.1)
-RightLeg.Weld.C0 = clerp(RightLeg.Weld.C0, CFrame.new(0.6, -1.0, 0)  * CFrame.Angles(math.rad(0), math.rad(-83), math.rad(0)), 0.1)
-end
+		Torso.Weld.C0 = clerp(Torso.Weld.C0, CFrame.new(0, -1, 0) * CFrame.Angles(math.rad(0), math.rad(90), math.rad(0)), 0.2)
+		Torso.Neck.C0 = clerp(Torso.Neck.C0,necko *angles(math.rad(0),math.rad(0),math.rad(-80)),.2)
+		RW.C0 = clerp(RW.C0, CFrame.new(1.5, 0.5, 0) * angles(math.rad(90), math.rad(0), math.rad(90)),.2)
+		LW.C0 = clerp(LW.C0, CFrame.new(-1.5, 0.5, 0) * angles(math.rad(-20), math.rad(0), math.rad(-30)),.2)
+		LeftLeg.Weld.C0 = clerp(LeftLeg.Weld.C0, CFrame.new(-0.73, -1.0, 0) * CFrame.Angles(math.rad(-25), math.rad(-66), math.rad(-25)), 0.1)
+		RightLeg.Weld.C0 = clerp(RightLeg.Weld.C0, CFrame.new(0.6, -1.0, 0)  * CFrame.Angles(math.rad(0), math.rad(-83), math.rad(0)), 0.1)
+	end
 
   
-		local beam = Instance.new("Part", workspace)
-		beam.BrickColor = BrickColor.new(g)
-		beam.FormFactor = "Custom"
-		beam.Material = "Neon"
-		beam.Transparency = 0.25
-		beam.Anchored = true
-		beam.Locked = false
-		beam.CanCollide = false
-				local Z = Instance.new("SpecialMesh",beam)
+	local beam = Instance.new("Part", workspace)
+	beam.BrickColor = BrickColor.new(g)
+	beam.FormFactor = "Custom"
+	beam.Material = "Neon"
+	beam.Transparency = 0.25
+	beam.Anchored = true
+	beam.Locked = false
+	beam.CanCollide = false
+
+	local Z = Instance.new("SpecialMesh",beam)
 	Z.MeshType = "Sphere"
-	
-		local ray = Ray.new(handee.CFrame.p, (mouse.Hit.p - handee.CFrame.p).unit * 700)
-		local part, position = workspace:FindPartOnRay(ray, player.Character, false, true)
-		local distance = (handee.CFrame.p - position).magnitude
-		beam.CFrame = CFrame.new(handee.CFrame.p, position) * CFrame.new(0, 0, -distance / 2)
-		beam.Size = Vector3.new(1, 1, distance)
+
+	local ray = Ray.new(handee.CFrame.p, (mouse.Hit.p - handee.CFrame.p).unit * 700)
+	local part, position = workspace:FindPartOnRay(ray, player.Character, false, true)
+	local distance = (handee.CFrame.p - position).magnitude
+
+	beam.CFrame = CFrame.new(handee.CFrame.p, position) * CFrame.new(0, 0, -distance / 2)
+	beam.Size = Vector3.new(1, 1, distance)
+	beam.Touched:Connect(function(obj)
+		local Explode = Instance.new("Explosion") 
+		Explode.Position = beam.Position
+		Explode.Parent = workspace
+		Explode.BlastPressure = 0
+		Explode.BlastRadius = beam.Size.X
+		Explode.Visible = false
+		Explode.Hit:connect(function(hit)
+			if hit.Parent:FindFirstChild("Humanoid")~=nil and hit.Parent:FindFirstChild("IsHit")==nil then
+				Dmgfunc(hit.Parent,hit.MaxHealt/2,hit.MaxHealth,0)
+			end
+		end
+	end)
 
 
 
-for i = 1,6,0.1 do
-    swait()
-thing.CFrame = CFrame.new(RootPart.Position,mouse.Hit.p)
+	for i = 1,6,0.1 do
+	    swait()
+		thing.CFrame = CFrame.new(RootPart.Position,mouse.Hit.p)
 		beam.CFrame = CFrame.new((beam.CFrame.p + position) / 2, beam.CFrame.p) * CFrame.fromEulerAnglesXYZ(0, math.rad(90), 0)
 		beam.Size = Vector3.new(1, 1, distance)
 		MagicBlock4(BrickColor.new("Lime green"), beam.CFrame * cf(0, 0, 0), 1, 1, 1, 16.2, 16.2, 16.2, 0.04)
 		MagicShockTrailAlt(BrickColor.new("Dark indigo"),beam.CFrame*CFrame.Angles(math.rad(math.random(-360,360)),math.rad(math.random(-360,360)),math.rad(math.random(-360,360))),10,10,5,-0.05,-0.05,25,0.005,math.random(1,2))
-if math.random(1,2) == 1 then
-beam.BrickColor = BrickColor.new(g)
-else
-beam.BrickColor = BrickColor.new(r)
-end
-end
-  attack = false
-thing:Destroy()
-beam:Destroy()
+		if math.random(1,2) == 1 then
+			beam.BrickColor = BrickColor.new(g)
+		else
+			beam.BrickColor = BrickColor.new(r)
+		end
+	end
+	attack = false
 
-
-    end
+	thing:Destroy()
+	beam:Destroy()
+end
 
 
 
