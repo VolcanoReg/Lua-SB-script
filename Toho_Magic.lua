@@ -2678,8 +2678,6 @@ local anima = Instance.new("Animation")
 anima.Parent = script
 anima.AnimationId = "rbxassetid://7326208423"
 
-local Animator = player.Character.Humanoid.Animator
-
 timestopper = player
 timestoptime = 4
 _G.timestoptime = timestoptime
@@ -2714,9 +2712,6 @@ function sound_visual(parent,sound_id,volume,longtime,distortion)
 	game.Debris:AddItem(a,longtime)
 end
 
-local animator = Animator
-local anim_play = animator:LoadAnimation(anima) -- need object
-
 function ticking()
     sound_visual(workspace,850256806,5,0)
 end
@@ -2727,7 +2722,6 @@ visual_event = function()
 	--colorcorr.Enabled = true
 	--colorcorr.Parent = game.Lighting
 	
-	anim_play:Play()
 	wait(0.85)
 	wait(1)
 	
