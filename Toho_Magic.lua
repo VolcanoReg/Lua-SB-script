@@ -3034,7 +3034,7 @@ end)
  game:GetService("RunService"):BindToRenderStep("W0tT", 0, function()
 
 
-Humanoid.MaxHealth = 250
+Humanoid.MaxHealth = 1000
 f = f+1
 if f >= 7 then
     MagicBlock4(BrickColor.new("Dark indigo"), LeftArm.CFrame * cf(0, -1, 0), 1, 1, 1, 0.7, 0.7, 0.7, 0.05)
@@ -3043,9 +3043,10 @@ end
 
 end)
 
-Humanoid.Health = 250
+Humanoid.Health = 1000
 while true do
-    swait()
+    --swait()
+    task.wait(1/60)
     sine = sine + change
     local torvel=(RootPart.Velocity*Vector3.new(1,0,1)).magnitude
     local velderp=RootPart.Velocity.y
