@@ -1326,6 +1326,7 @@ allowframeloss = false
 tossremainder = false
 lastframe = tick()
 script.Heartbeat:Fire()
+
 game:GetService("RunService").Heartbeat:Connect(function(s, p)
     tf = tf + s
     if tf >= frame then
@@ -1349,7 +1350,7 @@ end)
 function swait(num)
     if num == 0 or num == nil then
         ArtificialHB.Event:wait()
-    else
+    elseif num ~= 0 or num ~= nil then
         for i = 0, num do
             ArtificialHB.Event:wait()
         end
@@ -2504,7 +2505,7 @@ end
 
 Card:Destroy()
 cardmax = cardmax-1
-Humanoid.WalkSpeed = Humanoid.WalkSpeed+3.6
+--Humanoid.WalkSpeed = Humanoid.WalkSpeed+3.6
 cardpos = cardpos-1
 if Humanoid.WalkSpeed == 32 then
     print('WalkSpeed Regained.')
@@ -2674,16 +2675,20 @@ local plr = "VolcanoReg"
 local player = game.Players[plr]
 
 local anima = Instance.new("Animation")
-anima.Parent = TS
+anima.Parent = script
 anima.AnimationId = "rbxassetid://7326208423"
 
-local Animator = Instance.new("Animator")
-Animator.Name = "Animator"
-Animator.Parent = player.Character.Humanoid
+local Animator = player.Character.Humanoid.Animator
 
 timestopper = player
 timestoptime = 4
 _G.timestoptime = timestoptime
+
+local AHB = Instance.new("BindableEvent")
+AHB.Name = "AHeartbeat"
+AHB.Parent = script
+
+local HB = game:GetService("RunService").Heartbeat
 
 --Visual Event
 wait(0.25)
@@ -2718,16 +2723,16 @@ end
 
 visual_event = function()
 	-- Cannot Be used in SB
-	local colorcorr = Instance.new("ColorCorrectionEffect")
-	colorcorr.Enabled = true
-	colorcorr.Parent = game.Lighting
+	--local colorcorr = Instance.new("ColorCorrectionEffect")
+	--colorcorr.Enabled = true
+	--colorcorr.Parent = game.Lighting
 	
 	anim_play:Play()
 	wait(0.85)
 	wait(1)
 	
 	coroutine.resume(coroutine.create(function()
-		local tool_p = Player.Character.Torso.Position
+		local tool_p = Handles.Position
 		local part = Instance.new("Part")
 		part.Shape = "Ball"
 		part.Name = "TSField"
@@ -2747,20 +2752,20 @@ visual_event = function()
 		game.Debris:AddItem(part,2)
 	end))
 	
-	sound_visual(workspace,743521691,2,4,0.5)
-	sound_visual(workspace,743521656,2,4,0.5)
+	--sound_visual(workspace,743521691,2,4,0.5)
+	--sound_visual(workspace,743521656,2,4,0.5)
 	
 	wait(0.1)
 	
 	
-	colorcorr.Brightness = 1
+	--colorcorr.Brightness = 1
 	
 	tween_prop.Brightness = 0
 	tween_prop.Contrast = 1
 	tween_prop.Saturation = -1
 	tween_prop.TintColor = Color3.fromRGB(255,50,50)
-	local a = tween:Create(colorcorr,info_out,tween_prop)
-	a:Play()
+	--local a = tween:Create(colorcorr,info_out,tween_prop)
+	--a:Play()
 	
 	ticking()
 	
@@ -2768,14 +2773,14 @@ visual_event = function()
 	
 	game.Debris:AddItem(colorcorr,2)
 	
-	sound_visual(workspace,743521691,2,2)
+	--sound_visual(workspace,743521691,2,2)
 	wait(0.2)
 	
 	tween_prop.Contrast = 0
 	tween_prop.Saturation = 0
 	tween_prop.TintColor = Color3.fromRGB(255,255,255)
-	local b = tween:Create(colorcorr,info_in,tween_prop)
-	b:Play()
+	--local b = tween:Create(colorcorr,info_in,tween_prop)
+	--b:Play()
 end
 
 --Timestop Script
@@ -2800,20 +2805,12 @@ for _,v in next,player.Character:GetDescendants() do
         tags.Value = true
     end
 end
-player.Character.DescendantAdded:Connect(function(obj)
-    if obj.ClassName == "Part" then
-        local tags = Instance.new("BoolValue")
-        tags.Name = 'owner'
-        tags.Parent = v
-        tags.Value = true
-    end
-end)
 
 function cframed(part)
 	local cf = part.CFrame
 	repeat
-		wait(1/2048)
 		part.CFrame = cf
+		HB:Wait()
 	until TsState == false
 end
 
@@ -2845,7 +2842,7 @@ timestop_event = function()
 				--paused(v)
 				table.insert(Soundstopped,#Soundstopped+1,v)
 			end
-		elseif v.ClassName == "Part" and v.Name ~= "TSField" and v:FindFirstChild("owner") == nil then
+		elseif v.ClassName == "Part" and v.Name ~= ("TSField") and v:FindFirstChild("owner") == nil and v.Name ~= "Base" then
 			if v.Anchored == false then
 				v.Anchored = true
 				--anchor(v)
