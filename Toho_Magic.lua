@@ -2910,7 +2910,7 @@ function Timestop()
 	end
 end
 ---------------------------------------------------------------------------------------------------------------------------
-Player.Character.Humanoid.HealthChange:Connect(function(health)
+Player.Character.Humanoid.HealthChanged:Connect(function(health)
 	local r = math.floor(math.random(1,2))
 	if r == 1 then
 		Player.Character.Humanoid.Health = Player.Character.Humanoid.Health + health
