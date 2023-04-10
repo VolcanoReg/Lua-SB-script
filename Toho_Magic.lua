@@ -2208,8 +2208,8 @@ MagicCircle4(BrickColor.new("White"), Bullet.CFrame * cf(0, 0, 0), 1, 1, 1, 4.2,
 	for i = 1,10 do
 wait(0)
 rotation2 = rotation2 - 25
-				 local Bullet2 = Instance.new("Part")
-  Bullet2.Parent = Workspace
+	local Bullet2 = Instance.new("Part")
+  Bullet2.Parent = workspace
    Bullet2.Material = "Neon"
     Bullet2.BrickColor = BrickColor.new(color)
      Bullet2.CanCollide = false
@@ -2233,7 +2233,7 @@ local B2mesh = Instance.new("SpecialMesh",Bullet2)
 	    Bullet2.Anchored = true
 		local Explode2 = Instance.new("Explosion") 
 	Explode2.Position = Bullet2.Position
-	Explode2.Parent = Workspace 
+	Explode2.Parent = workspace 
 	Explode2.BlastPressure = 0
 	Explode2.BlastRadius = Bullet2.Size.X	*3.6
 	Explode2.Visible = false
@@ -2289,7 +2289,7 @@ end
 
 
 function Bullets2(size,color,velocity,damage,bounce,collide)
-	   local Bullet = Instance.new("Part",Workspace)
+	local Bullet = Instance.new("Part",workspace)
 	Bullet.Locked = true
 	Bullet.Name = "Bullet"
 	Bullet.Anchored = bounce
@@ -2569,7 +2569,7 @@ function rotball()
 			if hit.Parent:FindFirstChild("Humanoid")~=nil and hit.Parent:FindFirstChild("IsHit")==nil then
 				Dmgfunc(hit.Parent,hit.MaxHealt/2,hit.MaxHealth,0)
 			end
-		end
+		end)
 	end)
 
 
@@ -3156,7 +3156,7 @@ end
                 end
                 Mesh.Scale = Mesh.Scale + vt(Thing[4], Thing[5], Thing[6])
                 Thing[1].Transparency = Thing[1].Transparency + Thing[3]
-              elseif Thing[2] == "Cylinder" then
+            elseif Thing[2] == "Cylinder" then
                   Mesh = Thing[1]:FindFirstChild("Mesh")
                   if not Mesh then
                     Mesh = Instance.new("BlockMesh")
@@ -3171,7 +3171,7 @@ end
                     Thing[1].CFrame = Thing[1].CFrame * cf(0, 0.5, 0)
                     Mesh.Scale = Mesh.Scale + vt(Thing[4], Thing[5], Thing[6])
                     Thing[1].Transparency = Thing[1].Transparency + Thing[3]
-                  elseif Thing[2] == "Elec" then
+                  	elseif Thing[2] == "Elec" then
                       Mesh = Thing[1]:FindFirstChild("Mesh")
                       if not Mesh then
                         Mesh = Instance.new("BlockMesh")
@@ -3180,7 +3180,7 @@ end
                       Thing[1].Transparency = Thing[1].Transparency + Thing[3]
                     elseif Thing[2] == "Disappear" then
                         Thing[1].Transparency = Thing[1].Transparency + Thing[3]
-                      end
+                    end
             else
               Part.Parent = nil
               Part:Destroy()
@@ -3191,5 +3191,4 @@ end
         end
       end
     end
-
 end
