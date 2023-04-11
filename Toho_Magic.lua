@@ -2747,8 +2747,8 @@ visual_event = function()
 		game.Debris:AddItem(part,2)
 	end))
 	
-	--sound_visual(workspace,743521691,2,4,0.5)
-	--sound_visual(workspace,743521656,2,4,0.5)
+	sound_visual(workspace,743521691,2,4,0.5)
+	sound_visual(workspace,743521656,2,4,0.5)
 	
 	wait(0.1)
 	
