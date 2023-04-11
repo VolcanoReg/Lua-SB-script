@@ -2717,6 +2717,7 @@ function ticking()
 end
 
 visual_event = function()
+	print("Timestop")
 	-- Cannot Be used in SB
 	--local colorcorr = Instance.new("ColorCorrectionEffect")
 	--colorcorr.Enabled = true
@@ -2818,6 +2819,7 @@ function RemoteEventOff(remote)
 end
 
 timestop_event = function()
+	print("Timestop")
 	TsState = true
 	for i,v in next,workspace:GetDescendants() do
 		if v.ClassName == "Model" and v.Name ~= timestopper.Name then
@@ -2910,7 +2912,7 @@ function Timestop()
 	end
 end
 ---------------------------------------------------------------------------------------------------------------------------
-Player.Character.Humanoid.HealthChanged:Connect(function(health)
+--[[Player.Character.Humanoid.HealthChange:Connect(function(health)
 	local r = math.floor(math.random(1,2))
 	if r == 1 then
 		Player.Character.Humanoid.Health = Player.Character.Humanoid.Health + health
@@ -2925,7 +2927,7 @@ Player.Character.Humanoid.HealthChanged:Connect(function(health)
 	end
 
 end)
-
+]]
 
 
 ------------------------------------------------------------------------------------------------------------------------------
@@ -3034,7 +3036,7 @@ end)
  game:GetService("RunService"):BindToRenderStep("W0tT", 0, function()
 
 
-Humanoid.MaxHealth = 1000
+Humanoid.MaxHealth = 500
 f = f+1
 if f >= 7 then
     MagicBlock4(BrickColor.new("Dark indigo"), LeftArm.CFrame * cf(0, -1, 0), 1, 1, 1, 0.7, 0.7, 0.7, 0.05)
@@ -3043,7 +3045,7 @@ end
 
 end)
 
-Humanoid.Health = 1000
+Humanoid.Health = 500
 while true do
     swait()
     sine = sine + change
