@@ -2559,7 +2559,7 @@ function rotball()
 			exploded = Instance.new("Part")
 			exploded.Name = "BOOM!!!"
 			exploded.Position = partPos
-			exploded.Size = Vector3.new(0,0,0)
+			exploded.Size = Vector3.new(1,1,1)
 			exploded.Shape = "Ball"
 			exploded.Anchored = true
 			exploded.CanCollide = false
