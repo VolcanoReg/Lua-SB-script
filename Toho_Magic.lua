@@ -2563,6 +2563,7 @@ function rotball()
 			exploded.Shape = "Ball"
 			exploded.Anchored = true
 			exploded.CanCollide = false
+			exploded.Parent = workspace
 			for i=0,1,0.01 do
 				exploded.Size = Vector3.new(i*15,i*15,i*15)
 				exploded.Transparency = i
