@@ -2555,6 +2555,17 @@ function rotball()
 	beam.CFrame = CFrame.new(handee.CFrame.p, position) * CFrame.new(0, 0, -distance / 2)
 	beam.Size = Vector3.new(1, 1, distance)
 	beam.Touched:Once(function(obj)
+		local Explode = Instance.new("Explosion") 
+		Explode.Position = beam.Position
+		Explode.Parent = workspace
+		Explode.BlastPressure = 0
+		Explode.BlastRadius = beam.Size.X
+		Explode.Visible = false
+		Explode.Hit:connect(function(hit)
+			if hit.Parent.ClassName == "Model" and hit.Parent:FindFirstChild("IsHit")==nil then
+				Dmgfunc(hit.Parent,hit.Parent.Humanoid.MaxHealth/2,hit.Parent.Humanoid.MaxHealth,0)
+			end
+		end)
 		coroutine.wrap(function(partPos)
 			exploded = Instance.new("Part")
 			exploded.Name = "BOOM!!!"
@@ -2571,17 +2582,6 @@ function rotball()
 			end
 			exploded:Destroy()
 		end)(beam.Position)
-		local Explode = Instance.new("Explosion") 
-		Explode.Position = beam.Position
-		Explode.Parent = workspace
-		Explode.BlastPressure = 0
-		Explode.BlastRadius = beam.Size.X
-		Explode.Visible = false
-		Explode.Hit:connect(function(hit)
-			if hit.Parent.ClassName == "Model" and hit.Parent:FindFirstChild("IsHit")==nil then
-				Dmgfunc(hit.Parent,hit.Parent.Humanoid.MaxHealth/2,hit.Parent.Humanoid.MaxHealth,0)
-			end
-		end)
 	end)
 
 
