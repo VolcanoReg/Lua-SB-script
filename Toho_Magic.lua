@@ -2564,8 +2564,8 @@ function rotball()
 			exploded.Anchored = true
 			exploded.CanCollide = false
 			exploded.Parent = workspace
-			for i=0,1,0.01 do
-				exploded.Size = Vector3.new(i*50,i*50,i*50)
+			for i=0,1,0.05 do
+				exploded.Size = Vector3.new(i*100,i*100,i*100)
 				exploded.Transparency = i
 				task.wait(1/60)
 			end
