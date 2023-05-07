@@ -1493,48 +1493,48 @@ ElecEffect4 = function(cff, x, y, z)
 end
 
 function SkullEffect(brickcolor,cframe,x1,y1,z1,delay)
-local prt=part(3,workspace,0,0,brickcolor,"Effect",vt(0.5,0.5,0.5))
-prt.Anchored=true
-prt.CFrame=cframe
-local msh=mesh("SpecialMesh",prt,"FileMesh","http://www.roblox.com/asset/?id=4770583",vt(0,0,0),vt(x1,y1,z1))
---http://www.roblox.com/asset/?id=4770560
-game:GetService("Debris"):AddItem(prt,2)
-CF=prt.CFrame
-coroutine.resume(coroutine.create(function(Part,Mesh,TehCF) 
-for i=0,1,0.2 do
-wait()
-Part.CFrame=CF*cf(0,0,-0.4)
-end
-for i=0,1,delay do
-wait()
---Part.CFrame=CF*cf((math.random(-1,0)+math.random())/5,(math.random(-1,0)+math.random())/5,(math.random(-1,0)+math.random())/5)
-Mesh.Scale=Mesh.Scale
-end
-for i=0,1,0.1 do
-wait()
-Part.Transparency=i
-end
-Part.Parent=nil
-end),prt,msh,CF)
+	local prt=part(3,workspace,0,0,brickcolor,"Effect",vt(0.5,0.5,0.5))
+	prt.Anchored=true
+	prt.CFrame=cframe
+	local msh=mesh("SpecialMesh",prt,"FileMesh","http://www.roblox.com/asset/?id=4770583",vt(0,0,0),vt(x1,y1,z1))
+	--http://www.roblox.com/asset/?id=4770560
+	game:GetService("Debris"):AddItem(prt,2)
+	CF=prt.CFrame
+	coroutine.resume(coroutine.create(function(Part,Mesh,TehCF) 
+		for i=0,1,0.2 do
+			wait()
+			Part.CFrame=CF*cf(0,0,-0.4)
+		end
+		for i=0,1,delay do
+			wait()
+			--Part.CFrame=CF*cf((math.random(-1,0)+math.random())/5,(math.random(-1,0)+math.random())/5,(math.random(-1,0)+math.random())/5)
+			Mesh.Scale=Mesh.Scale
+		end
+		for i=0,1,0.1 do
+			wait()
+			Part.Transparency=i
+		end
+		Part.Parent=nil
+	end),prt,msh,CF)
 end
  
 function MagicBlock(brickcolor,cframe,x1,y1,z1,x3,y3,z3,delay)
-local prt=part(3,Character,0,0,brickcolor,"Effect",vt(0.5,0.5,0.5))
-prt.Anchored=true
-prt.Material = "Neon"
-prt.CFrame=cframe
-prt.CFrame=prt.CFrame*euler(math.random(-50,50),math.random(-50,50),math.random(-50,50))
-msh=mesh("BlockMesh",prt,"","",vt(0,0,0),vt(x1,y1,z1))
-game:GetService("Debris"):AddItem(prt,5)
-coroutine.resume(coroutine.create(function(Part,Mesh) 
-for i=0,1,delay do
-swait()
-Part.CFrame=Part.CFrame*euler(math.random(-50,50),math.random(-50,50),math.random(-50,50))
-Part.Transparency=i
-Mesh.Scale=Mesh.Scale+vt(x3,y3,z3)
-end
-Part.Parent=nil
-end),prt,msh)
+	local prt=part(3,Character,0,0,brickcolor,"Effect",vt(0.5,0.5,0.5))
+	prt.Anchored=true
+	prt.Material = "Neon"
+	prt.CFrame=cframe
+	prt.CFrame=prt.CFrame*euler(math.random(-50,50),math.random(-50,50),math.random(-50,50))
+	msh=mesh("BlockMesh",prt,"","",vt(0,0,0),vt(x1,y1,z1))
+	game:GetService("Debris"):AddItem(prt,5)
+	coroutine.resume(coroutine.create(function(Part,Mesh) 
+		for i=0,1,delay do
+			swait()
+			Part.CFrame=Part.CFrame*euler(math.random(-50,50),math.random(-50,50),math.random(-50,50))
+			Part.Transparency=i
+			Mesh.Scale=Mesh.Scale+vt(x3,y3,z3)
+		end
+		Part.Parent=nil
+	end),prt,msh)
 end
 
 function MagicBlockSteady(brickcolor,cframe,x1,y1,z1,x3,y3,z3,delay,rottype)
@@ -2006,48 +2006,43 @@ end
  
 -- Damage func
 function Dmgfunc(player,mindamage,maxdamage,waait)
-    
-dodamage = coroutine.wrap(function()
-    
-if player ~= Character and player:FindFirstChild("IsHit") == nil then
-    
-Max = mindamage + math.random(-mindamage,maxdamage)
+	dodamage = coroutine.wrap(function()
+	if player ~= Character and player:FindFirstChild("IsHit") == nil then
+		Max = mindamage + math.random(-mindamage,maxdamage)
 
-player.Humanoid.Health = player.Humanoid.Health - Max
+		player.Humanoid.Health = player.Humanoid.Health - Max
 
 
-local thiing = Instance.new("ObjectValue",player)
-thiing.Name = "IsHit"
-deb:AddItem(thiing,waait)
+		local thiing = Instance.new("ObjectValue",player)
+		thiing.Name = "IsHit"
+		deb:AddItem(thiing,waait)
 
---for nooby ;)
-local Damagetext = Instance.new("BillboardGui",player)
-Damagetext.Size = UDim2.new(0,100,0,40)
-Damagetext.StudsOffset = Vector3.new(0,3,0)
-Damagetext.Adornee = player.Head
-Damagetext.Name = "TalkingBillBoard"
-local Damagelabel = Instance.new("TextLabel",Damagetext)
-Damagelabel.BackgroundTransparency = 1
-Damagelabel.BorderSizePixel = 0
-Damagelabel.Text = ""..Max
-Damagelabel.Font = "Bodoni"
-Damagelabel.FontSize = "Size24"
-Damagelabel.TextStrokeTransparency = 0
-Damagelabel.TextColor3 = Color3.new(255,255,255)
-Damagelabel.TextStrokeColor3 = Color3.new(0,0,0)
-Damagelabel.Size = UDim2.new(1,0,1.5,0)
-deb:AddItem(Damagetext,4.5)
-for i = 1, 70 do
-wait(0.00000000000000000000000001)
-Damagelabel.Position = Damagelabel.Position - UDim2.new(0,0,.06,0)
-Damagelabel.TextStrokeTransparency = Damagelabel.TextStrokeTransparency +.06
-Damagelabel.TextTransparency = Damagelabel.TextTransparency + .04
-end
-Damagetext:Destroy()
-end
-end)
-dodamage(player,mindamage,maxdamage,waait)
-    
+		--for nooby ;)
+		local Damagetext = Instance.new("BillboardGui",player)
+		Damagetext.Size = UDim2.new(0,100,0,40)
+		Damagetext.StudsOffset = Vector3.new(0,3,0)
+		Damagetext.Adornee = player.Head
+		Damagetext.Name = "TalkingBillBoard"
+		local Damagelabel = Instance.new("TextLabel",Damagetext)
+		Damagelabel.BackgroundTransparency = 1
+		Damagelabel.BorderSizePixel = 0
+		Damagelabel.Text = ""..Max
+		Damagelabel.Font = "Bodoni"
+		Damagelabel.FontSize = "Size24"
+		Damagelabel.TextStrokeTransparency = 0
+		Damagelabel.TextColor3 = Color3.new(255,255,255)
+		Damagelabel.TextStrokeColor3 = Color3.new(0,0,0)
+		Damagelabel.Size = UDim2.new(1,0,1.5,0)
+		deb:AddItem(Damagetext,4.5)
+		for i = 1, 70 do
+		task.wait(1/120)
+		Damagelabel.Position = Damagelabel.Position - UDim2.new(0,0,.06,0)
+		Damagelabel.TextStrokeTransparency = Damagelabel.TextStrokeTransparency +.06
+		Damagelabel.TextTransparency = Damagelabel.TextTransparency + .04
+		end
+		Damagetext:Destroy()
+		end
+		end)(player,mindamage,maxdamage,waait)
 end
 
 
@@ -2560,6 +2555,21 @@ function rotball()
 	beam.CFrame = CFrame.new(handee.CFrame.p, position) * CFrame.new(0, 0, -distance / 2)
 	beam.Size = Vector3.new(1, 1, distance)
 	beam.Touched:Connect(function(obj)
+		coroutine.wrap(function(partPos)
+			exploded = Instance.new("Part")
+			exploded.Name = "BOOM!!!"
+			exploded.Position = partPos
+			exploded.Size = Vector3.new(0,0,0)
+			exploded.Shape = "Ball"
+			exploded.Anchored = true
+			exploded.CanCollide = false
+			for i=0,1,0.01 do
+				exploded.Size = Vector3.new(i*15,i*15,i*15)
+				exploded.Transparency = i
+				task.wait(1/60)
+			end
+			exploded:Destroy()
+		end,obj.Position or beam.Position)
 		local Explode = Instance.new("Explosion") 
 		Explode.Position = beam.Position
 		Explode.Parent = workspace
