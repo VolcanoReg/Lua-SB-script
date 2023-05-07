@@ -2554,7 +2554,7 @@ function rotball()
 
 	beam.CFrame = CFrame.new(handee.CFrame.p, position) * CFrame.new(0, 0, -distance / 2)
 	beam.Size = Vector3.new(1, 1, distance)
-	beam.Touched:Connect(function(obj)
+	beam.Touched:Once(function(obj)
 		coroutine.wrap(function(partPos)
 			exploded = Instance.new("Part")
 			exploded.Name = "BOOM!!!"
