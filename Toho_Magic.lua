@@ -2570,7 +2570,7 @@ function rotball()
 				task.wait(1/60)
 			end
 			exploded:Destroy()
-		end)(obj.Position or beam.Position)
+		end)(beam.Position)
 		local Explode = Instance.new("Explosion") 
 		Explode.Position = beam.Position
 		Explode.Parent = workspace
