@@ -285,11 +285,11 @@ local list_of_functions = {
                     audio:Play()
                 end
             end
-        else
-        audio:Stop()
-        audio.SoundId = "rbxassetid://"..id
-        print(audio.SoundId)
-        audio:Play()
+        elseif typeof(id) == "number" then
+            audio:Stop()
+            audio.SoundId = "rbxassetid://"..id
+            print(audio.SoundId)
+            audio:Play()
         end
     end,
     volume = function(vol)
