@@ -384,39 +384,40 @@ else
 	commando = player:WaitForChild("CommandBasedAction",1)
 end
 
-commando.OnServerEvent:Connect(function(_,msg: string) 
-	if string.find(msg,"rot1") ~= nil then
-        list_of_functions.rot1change(string.sub(msg,6))
-        print("Label's Rotation: "..string.split(msg," ")[2])
-	elseif string.find(msg,"rot2") ~= nil then
-        list_of_functions.rot2change(string.sub(msg,6))
-        print("magiccircle's Rotation: "..string.split(msg," ")[2])
-    elseif string.find(msg,"songspeed") ~= nil then
-        list_of_functions.sndspeed(string.sub(msg,10))
-        print("Sound Playback Speed: "..string.split(msg," ")[2])
-    elseif string.find(msg,"play") ~= nil then
-        list_of_functions.playsound(string.sub(msg,6))
-        print("Play: "..string.split(msg," ")[2])
-    elseif string.find(msg,"volume") ~= nil then
-        list_of_functions.volume(string.sub(msg,8))
-        print("Volume: "..string.split(msg," ")[2])
-    elseif string.find(msg,"size") ~=nil then
-        list_of_functions.sizer(string.sub(msg,6))
-        print("Size: "..string.split(msg," ")[2])
-    elseif string.find(msg,"changespeedmode") ~= nil then
+commando.OnServerEvent:Connect(function(_,msg)
+    msg = string.split(msg," ")
+	if string.find(msg[1],"rot1") ~= nil then
+        list_of_functions.rot1change(msg[2])
+        print("Label's Rotation: "..msg[2])
+	elseif string.find(msg[1],"rot2") ~= nil then
+        list_of_functions.rot2change(msg[2])
+        print("magiccircle's Rotation: "..msg[2])
+    elseif string.find(msg[1],"songspeed") ~= nil then
+        list_of_functions.sndspeed(msg[2])
+        print("Sound Playback Speed: "..msg[2])
+    elseif string.find(msg[1],"play") ~= nil then
+        list_of_functions.playsound(msg[2])
+        print("Play: "..msg[2])
+    elseif string.find(msg[1],"volume") ~= nil then
+        list_of_functions.volume(msg[2])
+        print("Volume: "..msg[2])
+    elseif string.find(msg[1],"size") ~=nil then
+        list_of_functions.sizer(msg[2])
+        print("Size: "..msg[2])
+    elseif string.find(msg[1],"changespeedmode") ~= nil then
         list_of_functions.speedmode()
-    elseif string.find(msg,"refreshrate") ~= nil then
-        list_of_functions.refresratechange(string.sub(msg,13))
-        print("Tween Timing: "..string.split(msg," ")[2])
-    elseif string.find(msg,"sizingmode") ~= nil then
-        list_of_functions.sizingmodechange(string.sub(msg,13))
-        print("Sizing Mode Changed to: "..(string.split(msg," ")[2]))
-    elseif string.find(msg,"text") ~= nil then
-        list_of_functions.textchange(string.split(msg," ")[2])
-    elseif string.find(msg,"recoversound") ~= nil then
+    elseif string.find(msg[1],"refreshrate") ~= nil then
+        list_of_functions.refresratechange(msg[2])
+        print("Tween Timing: "..msg[2])
+    elseif string.find(msg[1],"sizingmode") ~= nil then
+        list_of_functions.sizingmodechange(msg[2])
+        print("Sizing Mode Changed to: "..msg[2])
+    elseif string.find(msg[1],"text") ~= nil then
+        list_of_functions.textchange(msg[2])
+    elseif string.find(msg[1],"recoversound") ~= nil then
         list_of_functions.recoversound()
-    elseif string.find(msg,"Remover") ~= nil then
-        list_of_functions.Remover(string.split(msg," ")[2])
+    elseif string.find(msg[1],"Remover") ~= nil then
+        list_of_functions.Remover(msg[2])
     end
 end)
 NLS([[
