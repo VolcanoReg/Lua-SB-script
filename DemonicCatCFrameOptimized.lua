@@ -6,6 +6,7 @@ local tween = game:GetService("TweenService")
 function tweener(instance,changedto,time)
     local info = TweenInfo.new(time,Enum.EasingStyle.Linear,Enum.EasingDirection.InOut)
     tween:Create(instance, info, changedto):Play()
+    task.wait(time)
 end
 --#Variables
 print("initiating Demonic Little Grey Cat Head Part...")
@@ -205,55 +206,6 @@ script.Parent:FindFirstChild("Humanoid").Changed:Connect(function(prop)
     end
 end)
 
-function rot1change(int: number)
-    int=tonumber(int)
-    if int <= 0.01 then
-        int = 0.01
-    end
-    rot1 = int
-end
-
-function rot2change(int: number)
-    int=tonumber(int)
-    if int <= 0.01 then
-        int = 0.01
-    end
-    rot2 = int
-end
-
-function sndspeed(speed: number)
-    speed=tonumber(speed)
-    audio.PlaybackSpeed = speed
-end
-
-function playsound(id)
-    if typeof(id) == "string" then
-        for name,song in songs do
-            if string.find(name,id) ~= nil then
-                audio:Stop()
-                audio.SoundId = "rbxassetid://"..song[1]
-                audio.PlaybackSpeed = song[2]
-                print(audio.SoundId)
-                audio:Play()
-            end
-        end
-    else
-    audio:Stop()
-    audio.SoundId = "rbxassetid://"..id
-    print(audio.SoundId)
-    audio:Play()
-    end
-end
-
-function volume(vol)
-    vol=tonumber(vol)
-    audio.Volume = vol
-end
-
-function sizer(vec: number)
-    defsize = vec
-end
-
 local list_of_functions = {
 
     rot1change = function(int: number)
@@ -272,7 +224,9 @@ local list_of_functions = {
     end,
     sndspeed = function(speed: number)
         speed=tonumber(speed)
-        audio.PlaybackSpeed = speed
+        local changedto = {}
+        changedto.PlaybackSpeed = speed
+        tweener(audio, changedto, 0.5)
     end,
     playsound = function(id)
         if typeof(id) == "string" then
@@ -374,7 +328,6 @@ function weldhumrootpart(audioifmodes1)
         weld_humroot.C1 *= CFrame.Angles(0,math.rad(rot2),0)
     end
 end
-
 
 if player:FindFirstChild("CommandBasedAction") == nil then
 	commando = Instance.new("RemoteEvent")
