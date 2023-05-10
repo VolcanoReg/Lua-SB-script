@@ -283,8 +283,13 @@ local list_of_functions = {
                     audio.PlaybackSpeed = song[2]
                     print(audio.SoundId)
                     audio:Play()
+                    return
                 end
             end
+            audio:Stop()
+            audio.SoundId = "rbxassetid://"..id
+            print(audio.SoundId)
+            audio:Play()
         elseif typeof(id) == "number" then
             audio:Stop()
             audio.SoundId = "rbxassetid://"..id
