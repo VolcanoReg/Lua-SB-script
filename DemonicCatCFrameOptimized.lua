@@ -182,15 +182,53 @@ function tp()
     game:GetService("Debris"):AddItem(s,1)
 end
 
+--by MLGwarfare04
+Player = owner
+Backpack = Player.Backpack
+Character = Player.Character
+Humanoid = Character.Humanoid
+RootPart = Character["HumanoidRootPart"]
+Torso = Character["Torso"]
+Head = Character["Head"]
+RightArm = Character["Right Arm"]
+LeftArm = Character["Left Arm"]
+RightLeg = Character["Right Leg"]
+LeftLeg = Character["Left Leg"]
+RootJoint = RootPart["RootJoint"]
+Neck = Torso["Neck"]
+RightShoulder = Torso["Right Shoulder"]
+LeftShoulder = Torso["Left Shoulder"]
+RightHip = Torso["Right Hip"]
+LeftHip = Torso["Left Hip"]
 
 
-script.Parent:FindFirstChild("Humanoid").HealthChanged:Connect(function(h)
-    script.Parent.Humanoid.Health = script.Parent.Humanoid.Health + h
-    tp()
+
+function refit()
+    RootJoint.Parent = RootPart
+    Neck.Parent = Torso
+    RightShoulder.Parent = Torso
+    LeftShoulder.Parent = Torso
+    RightHip.Parent = Torso
+    LeftHip.Parent = Torso
+    RootPart.Parent = Character
+    LeftArm.Parent = Character
+    RightArm.Parent = Character
+    RightLeg.Parent = Character
+    LeftLeg.Parent = Character
+    Torso.Parent = Character
+    Head.Parent = Character
+end
+
+Humanoid.Died:Connect(function()
+    Humanoid.Parent = nil
+    Humanoid.MaxHealth = 1000000000000000000000000000000000000000000000000000000000000000000000
+    Humanoid.Health = 10000000000000000000000000000000000000000000000000000000000000000000
+    refit()
+    Humanoid.Parent = Character
 end)
 
-script.Parent.Humanoid.MaxHealth = math.huge
-script.Parent.Humanoid.Health = math.huge
+owner.Character.Humanoid:TakeDamage(owner.Character.Humanoid.MaxHealth)
+
 rot1 = 1
 rot2 = 1
 defsize = 1
@@ -200,10 +238,8 @@ audioifmodes1 = 0
 timerforsize = 0.15
 Remover = 0
 
-script.Parent:FindFirstChild("Humanoid").Changed:Connect(function(prop)
-    if prop == "MaxHealth" then
-        script.Parent.Humanoid.MaxHealth = math.huge
-    end
+script.Parent:FindFirstChild("Humanoid").HealthChanged:Connect(function(h)
+    tp()
 end)
 
 local list_of_functions = {
@@ -269,12 +305,12 @@ local list_of_functions = {
     sizer = function(vec: number)
         defsize = vec
     end,
-    speedmode = function()
+    speedmode = function(self)
         if modes == 0 then
-            rot2change(0.1)
+            self.rot2change(0.1)
             modes = 1
         elseif modes == 1 then
-            rot2change(1)
+            self.rot2change(0.1)
             modes = 0
         end
         print("Changed Speed Mode to "..modes)
@@ -475,7 +511,6 @@ loop = function()
         end
     end)()
 end
-player.Character.Humanoid:SetStateEnabled("Died",false)
 loop()
 --cl/game:GetService("Chat"):Chat(owner.Character,"_play 13107234233")
 --Camellia - GHOST = 13260768688
