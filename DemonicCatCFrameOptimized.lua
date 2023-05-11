@@ -263,6 +263,7 @@ local list_of_functions = {
             rot2change(0.1)
             modes = 1
         elseif modes == 1 then
+            rot2change(1)
             modes = 0
         end
         print("Changed Speed Mode to "..modes)
@@ -436,10 +437,10 @@ Size.OnServerEvent:Connect(function(_,size)
     audioifmodes1 = size
     if sizingmode == 0 then
         local changedto = {}
-        changedto.Size = Vector3.new((size/5)*defsize,0.1,(size/5)*defsize)
+        changedto.Size = Vector3.new((size/7.5)*defsize,0.1,(size/7.5)*defsize)
         tweener(magiccircle,changedto,timerforsize)
     elseif sizingmode == 1 then
-        magiccircle.Size = Vector3.new((size/5)*defsize,0.1,(size/5)*defsize)
+        magiccircle.Size = Vector3.new((size/7.5)*defsize,0.1,(size/7.5)*defsize)
     end
 end)
 
