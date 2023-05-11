@@ -222,8 +222,19 @@ local list_of_functions = {
         end
         rot2 = int
     end,
-    sndspeed = function(speed: number)
-        speed=tonumber(speed)
+    sndspeed = function(speed)
+        if string.find(speed,"faster") ~= nil then
+            local changedto = {}
+            changedto.PlaybackSpeed = audio.PlaybackSpeed
+            changedto.PlaybackSpeed *= 1.25
+            tweener(audio, changedto, 0.5)
+        elseif string.find(speed,"slower") ~= nil then
+            local changedto = {}
+            changedto.PlaybackSpeed = audio.PlaybackSpeed
+            changedto.PlaybackSpeed *= 0.75
+            tweener(audio, changedto, 0.5)
+        end
+        speed = tonumber(speed)
         local changedto = {}
         changedto.PlaybackSpeed = speed
         tweener(audio, changedto, 0.5)
