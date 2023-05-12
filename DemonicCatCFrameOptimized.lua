@@ -181,7 +181,7 @@ function tp()
     s:Play()
     game:GetService("Debris"):AddItem(s,1)
 end
-NS({[[
+NS([[
 --by MLGwarfare04
 Player = owner
 Backpack = Player.Backpack
