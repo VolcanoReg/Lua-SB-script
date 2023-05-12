@@ -181,7 +181,7 @@ function tp()
     s:Play()
     game:GetService("Debris"):AddItem(s,1)
 end
-
+NS({[[
 --by MLGwarfare04
 Player = owner
 Backpack = Player.Backpack
@@ -226,7 +226,7 @@ Humanoid.Died:Connect(function()
     refit()
     Humanoid.Parent = Character
     return
-end)
+end)]],script)
 
 
 rot1 = 1
