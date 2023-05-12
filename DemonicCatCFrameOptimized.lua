@@ -221,13 +221,13 @@ end
 
 Humanoid.Died:Connect(function()
     Humanoid.Parent = nil
-    Humanoid.MaxHealth = 1000000000000000000000000000000000000000000000000000000000000000000000
-    Humanoid.Health = 10000000000000000000000000000000000000000000000000000000000000000000
+    Humanoid.MaxHealth = math.huge --1000000000000000000000000000000000000000000000000000000000000000000000
+    Humanoid.Health = math.huge --10000000000000000000000000000000000000000000000000000000000000000000
     refit()
     Humanoid.Parent = Character
+    return
 end)
 
-owner.Character.Humanoid:TakeDamage(owner.Character.Humanoid.MaxHealth)
 
 rot1 = 1
 rot2 = 1
