@@ -1,5 +1,5 @@
 local plr = "VolcanoReg"
-local player = game:GetService("Players")[plr]
+local player = game:GetService("Players")[plr] or owner
 script.Parent = player.Character
 script.Name = "DemonicCat"
 local tween = game:GetService("TweenService")
@@ -180,10 +180,12 @@ function tp()
 end
 
 Humanoid = owner.Character.Humanoid
+Humanoid.MaxHealth = 500
+Humanoid.Health = 500
 Humanoid.Died:Connect(function()
     Humanoid.Parent = nil
-    Humanoid.MaxHealth = math.huge --1000000000000000000000000000000000000000000000000000000000000000000000
-    Humanoid.Health = math.huge --10000000000000000000000000000000000000000000000000000000000000000000
+    Humanoid.MaxHealth = 500 --1000000000000000000000000000000000000000000000000000000000000000000000
+    Humanoid.Health = 500 --10000000000000000000000000000000000000000000000000000000000000000000
     Humanoid.BreakJointsOnDeath = false
     Humanoid.Parent = owner.Character
     task.wait(1/1024)
