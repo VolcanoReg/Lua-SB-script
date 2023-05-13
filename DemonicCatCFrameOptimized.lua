@@ -164,7 +164,6 @@ audio:Play()
 HB=game:GetService("RunService").Heartbeat;swait=function()HB:Wait();end;
 
 function tp()
-    humanoidrotpart.CFrame = humanoidrotpart.CFrame + Vector3.new(math.random(-5,5),0,0)
     local s = Instance.new("Sound")
     s.SoundId = "rbxassetid://6408655200"
     s.Volume = 1
@@ -176,6 +175,7 @@ function tp()
     b.HighGain = 0
     b.Parent = s
     s:Play()
+    owner.Character:PivotTo(owner.Character:GetPivot() + Vector3.new(math.random(-7, 7), 0, math.random(-7, 7)))
     game:GetService("Debris"):AddItem(s,1)
 end
 
@@ -186,6 +186,7 @@ Humanoid.Died:Connect(function()
     Humanoid.Health = math.huge --10000000000000000000000000000000000000000000000000000000000000000000
     Humanoid.BreakJointsOnDeath = false
     Humanoid.Parent = owner.Character
+    task.wait(1/1024)
 end)
 
 rot1 = 1
@@ -198,7 +199,19 @@ timerforsize = 0.15
 Remover = 0
 
 script.Parent:FindFirstChild("Humanoid").HealthChanged:Connect(function(h)
-    tp()
+    local c = owner.Character
+    local h = c.Humanoid
+    local db = false
+    if h.Health ~= h.MaxHealth then
+        if h.Health < h.MaxHealth and not db then
+            db = true
+            tp()
+            task.delay(1, function()
+                db = false
+            end)
+        end
+        h.Health = h.MaxHealth
+    end
 end)
 
 local list_of_functions = {
