@@ -329,6 +329,32 @@ local list_of_functions = {
             Remover = false
         end
     end,
+    InitEQ = function()
+        if EQ ~= nil then
+            print("EQ already Initialized")
+            return
+        end
+        EQ = Instance.new("EqualizerSoundEffect")
+        EQ.Enabled = true
+        EQ.Parent = audio
+    end,
+    SetEQ = function(types,Amount: number)
+        if types == "low" then
+            EQ.LowGain = Amount
+        elseif types == "med" then
+            EQ.MidGain = Amount
+        elseif types == "high" then
+            EQ.HighGain = Amount
+        elseif types == "Normal" then
+            EQ.LowGain = 0
+            EQ.MidGain = 0
+            EQ.HighGain = 0
+        end
+    end,
+    DisableEQ = function()
+        EQ:Destroy()
+        EQ = nil
+    end
 
 }
 
@@ -382,6 +408,12 @@ commando.OnServerEvent:Connect(function(_,msg)
         list_of_functions.recoversound()
     elseif string.find(msg[1],"Remover") ~= nil then
         list_of_functions.Remover(msg[2])
+    elseif string.find(msg[1],"InitEQ") ~= nil then
+        list_of_functions.InitEQ()
+    elseif string.find(msg[1],"SetEQ") ~= nil then
+        list_of_functions.SetEQ(msg[2],msg[3])
+    elseif string.find(msg[1],"UnEQ") ~= nil then
+        list_of_functions.DisableEQ()
     end
 end)
 NLS([[
