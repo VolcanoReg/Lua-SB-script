@@ -223,6 +223,7 @@ Humanoid.Died:Connect(function()
     Humanoid.Parent = nil
     Humanoid.MaxHealth = math.huge --1000000000000000000000000000000000000000000000000000000000000000000000
     Humanoid.Health = math.huge --10000000000000000000000000000000000000000000000000000000000000000000
+    Humanoid.BreakJointsOnDeath = false
     refit()
     Humanoid.Parent = Character
     return
