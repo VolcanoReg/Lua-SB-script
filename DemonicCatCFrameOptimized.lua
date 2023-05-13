@@ -181,53 +181,15 @@ function tp()
     s:Play()
     game:GetService("Debris"):AddItem(s,1)
 end
-NS([[
---by MLGwarfare04
-Player = owner
-Backpack = Player.Backpack
-Character = Player.Character
-Humanoid = Character.Humanoid
-RootPart = Character["HumanoidRootPart"]
-Torso = Character["Torso"]
-Head = Character["Head"]
-RightArm = Character["Right Arm"]
-LeftArm = Character["Left Arm"]
-RightLeg = Character["Right Leg"]
-LeftLeg = Character["Left Leg"]
-RootJoint = RootPart["RootJoint"]
-Neck = Torso["Neck"]
-RightShoulder = Torso["Right Shoulder"]
-LeftShoulder = Torso["Left Shoulder"]
-RightHip = Torso["Right Hip"]
-LeftHip = Torso["Left Hip"]
 
-
-
-function refit()
-    RootJoint.Parent = RootPart
-    Neck.Parent = Torso
-    RightShoulder.Parent = Torso
-    LeftShoulder.Parent = Torso
-    RightHip.Parent = Torso
-    LeftHip.Parent = Torso
-    RootPart.Parent = Character
-    LeftArm.Parent = Character
-    RightArm.Parent = Character
-    RightLeg.Parent = Character
-    LeftLeg.Parent = Character
-    Torso.Parent = Character
-    Head.Parent = Character
-end
-
+Humanoid = owner.Character
 Humanoid.Died:Connect(function()
     Humanoid.Parent = nil
     Humanoid.MaxHealth = math.huge --1000000000000000000000000000000000000000000000000000000000000000000000
     Humanoid.Health = math.huge --10000000000000000000000000000000000000000000000000000000000000000000
     Humanoid.BreakJointsOnDeath = false
-    refit()
-    Humanoid.Parent = Character
-    return
-end)]],script)
+    Humanoid.Parent = Humanoid
+end)
 
 
 rot1 = 1
