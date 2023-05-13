@@ -19,7 +19,7 @@ local songs = {
     ["Bad Apple"] = {13107234233,0.67},
     ["YOASOBI - Idol"] = {13260765767,1},
     ["Camellia - GHOST"] = {13260768688,1},
-
+    ["Kevin MacLeod - Local Forecast"] = {13413645483,1}
 }
 --#Head Part start
 local ins1 = Instance.new("Part")
@@ -152,16 +152,13 @@ if noerr == false then
     audio.Parent = humanoidrotpart
 end
 print("Audio Ready")
-
 wait()
 print("Initiating Demonic Little Demon Cat HumanoidRootPart Part Done")
 wait()
 print("All Physical Preparation Completed")
 wait()
 print("Initiating Spiritual Power...")
---[[
-	Rotating Script for Title and MagicCircle
-]]
+--[[Rotating Script for Title and MagicCircle]]
 audio:Play()
 
 HB=game:GetService("RunService").Heartbeat;swait=function()HB:Wait();end;
@@ -190,7 +187,6 @@ Humanoid.Died:Connect(function()
     Humanoid.BreakJointsOnDeath = false
     Humanoid.Parent = owner.Character
 end)
-
 
 rot1 = 1
 rot2 = 1
@@ -336,6 +332,9 @@ local list_of_functions = {
         end
         EQ = Instance.new("EqualizerSoundEffect")
         EQ.Enabled = true
+        EQ.LowGain = 3
+        EQ.MidGain = 3
+        EQ.HighGain = 3
         EQ.Parent = audio
     end,
     SetEQ = function(types,Amount: number)
@@ -345,10 +344,10 @@ local list_of_functions = {
             EQ.MidGain = Amount
         elseif types == "high" then
             EQ.HighGain = Amount
-        elseif types == "Normal" then
-            EQ.LowGain = 0
-            EQ.MidGain = 0
-            EQ.HighGain = 0
+        elseif types == "Default" then
+            EQ.LowGain = 3
+            EQ.MidGain = 3
+            EQ.HighGain = 3
         end
     end,
     DisableEQ = function()
