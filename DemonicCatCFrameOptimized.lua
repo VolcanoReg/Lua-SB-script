@@ -182,7 +182,7 @@ function tp()
     game:GetService("Debris"):AddItem(s,1)
 end
 
-Humanoid = owner.Character
+Humanoid = owner.Character.Humanoid
 Humanoid.Died:Connect(function()
     Humanoid.Parent = nil
     Humanoid.MaxHealth = math.huge --1000000000000000000000000000000000000000000000000000000000000000000000
