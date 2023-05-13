@@ -74,7 +74,7 @@ BackSign.Visible = true
 BackSign.Font = "Antique"
 BackSign.LineHeight = -1
 BackSign.RichText = true
---BackSign.Text = plr.."'s antidamage"
+BackSign.Text = plr.."'s antidamage and viz"
 BackSign.TextColor3 = Color3.fromRGB(140,0,255)
 BackSign.TextScaled = false
 BackSign.TextSize = 25
@@ -91,7 +91,7 @@ FrontSign.Visible = true
 FrontSign.Font = "Antique"
 FrontSign.LineHeight = -1
 FrontSign.RichText = true
---FrontSign.Text = plr.."'s antidamage"
+FrontSign.Text = plr.."'s antidamage and viz"
 FrontSign.TextColor3 = Color3.fromRGB(140,0,255)
 FrontSign.TextScaled = false
 FrontSign.TextSize = 25
@@ -486,7 +486,7 @@ Size.OnServerEvent:Connect(function(_,size)
 end)
 
 magiccircle.Touched:Connect(function(touched)
-    if touched.ClassName == "Part" and touched.Parent:FindFirstChild("Humanoid") == nil and touched.Parent.Name ~= owner.Name and Remover == false then
+    if touched.ClassName == "Part" and touched.Parent:FindFirstChild("Humanoid") == nil and touched.Parent.Name ~= owner.Name and Remover == true then
         pcall(function()touched:Destroy()end)
     end
 end)
