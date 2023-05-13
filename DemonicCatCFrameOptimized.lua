@@ -474,7 +474,7 @@ loop = function()
         end
     end)()
 end
-owner.Character.BreakJointsOnDeath = false
+owner.Character.Humanoid.BreakJointsOnDeath = false
 loop()
 --cl/game:GetService("Chat"):Chat(owner.Character,"_play 13107234233")
 --Camellia - GHOST = 13260768688
