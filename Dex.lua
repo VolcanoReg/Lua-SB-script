@@ -2688,9 +2688,11 @@ local function Scan(item, parent)
 			end
 		end
 		obj[p] = v
+        task.wait()
 	end
 	for _,c in pairs(item.Children) do
 		Scan(c, obj)
+        task.wait()
 	end
 	obj.Parent = parent
 	return obj
