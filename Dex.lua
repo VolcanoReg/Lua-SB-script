@@ -2696,7 +2696,7 @@ local function Scan(item, parent)
 	return obj
 end
 Scan(root, owner.PlayerGui)
-
+print("GUIDONE")
 owner.PlayerGui:WaitForChild("Dex"):WaitForChild("TempPastes").Parent = game.LocalizationService
 local Gui = owner.PlayerGui:WaitForChild("Dex")
 
