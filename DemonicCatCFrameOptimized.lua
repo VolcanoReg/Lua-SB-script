@@ -496,7 +496,7 @@ Size.OnServerEvent:Connect(function(_,size)
         changedto.Size = Vector3.new((size/7.5)*defsize,0.1,(size/7.5)*defsize)
         tweener(magiccircle,changedto,timerforsize)
     elseif sizingmode == 1 then
-        for i=0,1,.05 do
+        for i=0,1,.01 do
             magiccircle.Size = Vector3.new(1,1,1):Lerp(Vector3.new((size/7.5)*defsize,0.1,(size/7.5)*defsize),i) --Vector3.new((size/7.5)*defsize,0.1,(size/7.5)*defsize)
             task.wait()
         end
