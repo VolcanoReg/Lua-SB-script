@@ -2698,7 +2698,7 @@ end
 Init =  function() return Scan(root, owner.PlayerGui) end
 Init()
 script.Parent:WaitForChild("TempPastes").Parent = game.LocalizationService
-local Gui = script.Parent
+local Gui = owner.PlayerGui:WaitForChild("Dex")
 
 local IntroFrame = Gui:WaitForChild("IntroFrame")
 
@@ -3316,11 +3316,10 @@ OpenScriptEditorButton.AutoButtonColor = true
 
 
 NS('FEDex = function(Plr)
-	local NewDex = script.Parent:WaitForChild("Dex"):Clone()
+	local NewDex = Plr.PlayerGui:WaitForChild("Dex")
 	print(Plr)
-	NewDex.Parent = game:GetService("Players"):WaitForChild(Plr):WaitForChild("PlayerGui")
 	print("PastGui")
-	local FERemote = Instance.new("RemoteFunction",NewDex)	
+	local FERemote = Instance.new("RemoteFunction",NewDex)
 	FERemote.Name = "DexAPI"
 
 
