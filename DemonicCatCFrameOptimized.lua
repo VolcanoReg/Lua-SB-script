@@ -161,7 +161,7 @@ print("Initiating Spiritual Power...")
 --[[Rotating Script for Title and MagicCircle]]
 audio:Play()
 
-HB=game:GetService("RunService").Heartbeat;swait=function()HB:Wait();end;
+HB=game:GetService("RunService").Heartbeat;swait=function()return HB:Wait();end;
 
 function tp()
     local s = Instance.new("Sound")
@@ -496,7 +496,11 @@ Size.OnServerEvent:Connect(function(_,size)
         changedto.Size = Vector3.new((size/7.5)*defsize,0.1,(size/7.5)*defsize)
         tweener(magiccircle,changedto,timerforsize)
     elseif sizingmode == 1 then
-        magiccircle.Size = Vector3.new((size/7.5)*defsize,0.1,(size/7.5)*defsize)
+        local a=0
+        for i=0,1,a do
+            magiccircle.Size = magiccircle.Size:Lerp(Vector3.new((size/7.5)*defsize,0.1,(size/7.5)*defsize),i) --Vector3.new((size/7.5)*defsize,0.1,(size/7.5)*defsize)
+            a = swait() * 60
+        end
     end
 end)
 
