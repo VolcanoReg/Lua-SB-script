@@ -2675,7 +2675,7 @@ local function Scan(item, parent)
 			partsWithId[item.ID] = obj
 		end
 	end
-	for p,v in next,item.Properties do
+	for p,v in pairs(item.Properties) do
 		if (type(v) == "string") then
 			local id = tonumber(v:match("^_R:(%w+)_$"))
 			if (id) then
@@ -2689,14 +2689,14 @@ local function Scan(item, parent)
 		end
 		obj[p] = v
 	end
-	for _,c in next,item.Children do
+	for _,c in pairs(item.Children) do
 		Scan(c, obj)
 	end
 	obj.Parent = parent
 	return obj
 end
-Init =  function() return Scan(root, owner.PlayerGui) end
-Init()
+Scan(root, owner.PlayerGui)
+
 owner.PlayerGui:WaitForChild("Dex"):WaitForChild("TempPastes").Parent = game.LocalizationService
 local Gui = owner.PlayerGui:WaitForChild("Dex")
 
