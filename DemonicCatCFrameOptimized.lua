@@ -636,12 +636,12 @@ OnHumDied = function()
 end
 
 
-coroutine.wrap(coroutine.create(function()
+coroutine.wrap(function()
     while true do
         Humanoid.Died:Wait()
         FASTLIB.fdefer(OnHumDied)
     end
-end))()
+end)()
 
 rot1 = 1
 rot2 = 1
@@ -670,10 +670,10 @@ OnHealthChanged = function(h)
         h.Health = h.MaxHealth
     end
 end
-coroutine.wrap(coroutine.create(function()
+coroutine.wrap(function()
     local hc = Humanoid.HealthChanged:Wait()
     FASTLIB.fdefer(OnHealthChanged,hc)
-end))()
+end)()
 
 local list_of_functions = {
 
