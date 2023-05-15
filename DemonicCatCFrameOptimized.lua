@@ -957,12 +957,12 @@ Size.OnServerEvent:Connect(function(_,size)
         changedto.Size = Vector3.new((size/7.5)*defsize,0.1,(size/7.5)*defsize)
         tweener(magiccircle,changedto,timerforsize)
     elseif sizingmode == 1 then
-        coroutine.wrap(coroutine.create(function(magiccircle,size,defsize)
-            for i=0,1,.05 do
-                magiccircle.Size = Vector3.new(4,0.1,4):Lerp(Vector3.new((size/7.5)*defsize,0.1,(size/7.5)*defsize),i) --Vector3.new((size/7.5)*defsize,0.1,(size/7.5)*defsize)
-                task.wait()
-            end
-        end))(magiccircle,size,defsize)
+        local s=game:GetService("RunService").Heartbeat:Wait()
+        s*=60
+        for i=0,1,s do
+            magiccircle.Size = Vector3.new(4,0.1,4):Lerp(Vector3.new((size/7.5)*defsize,0.1,(size/7.5)*defsize),i) --Vector3.new((size/7.5)*defsize,0.1,(size/7.5)*defsize)
+            s=game:GetService("RunService").Heartbeat:Wait()
+        end
     end
 end)
 
