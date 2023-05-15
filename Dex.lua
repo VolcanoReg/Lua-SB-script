@@ -2700,614 +2700,614 @@ local function Scan(item, parent)
 end
 Scan(root, owner.PlayerGui)
 print("GUIDONE")
-owner.PlayerGui:WaitForChild("Dex"):WaitForChild("TempPastes").Parent = game.LocalizationService
-local Gui = owner.PlayerGui:WaitForChild("Dex")
-
-local IntroFrame = Gui:WaitForChild("IntroFrame")
-
-local SideMenu = Gui:WaitForChild("SideMenu")
-local OpenToggleButton = Gui:WaitForChild("Toggle")
-local CloseToggleButton = SideMenu:WaitForChild("Toggle")
-local OpenScriptEditorButton = SideMenu:WaitForChild("OpenScriptEditor")
-
-local ScriptEditor = Gui:WaitForChild("ScriptEditor")
-
-local SlideOut = SideMenu:WaitForChild("SlideOut")
-local SlideFrame = SlideOut:WaitForChild("SlideFrame")
-local Slant = SideMenu:WaitForChild("Slant")
-
-local ExplorerButton = SlideFrame:WaitForChild("Explorer")
-local SettingsButton = SlideFrame:WaitForChild("Settings")
-
-local SelectionBox = Instance.new("SelectionBox")
-SelectionBox.Parent = Gui
-
-local ExplorerPanel = Gui:WaitForChild("ExplorerPanel")
-local PropertiesFrame = Gui:WaitForChild("PropertiesFrame")
-local SaveMapWindow = Gui:WaitForChild("SaveMapWindow")
-local RemoteDebugWindow = Gui:WaitForChild("RemoteDebugWindow")
-
-local SettingsPanel = Gui:WaitForChild("SettingsPanel")
-local AboutPanel = Gui:WaitForChild("About")
-local SettingsListener = SettingsPanel:WaitForChild("GetSetting")
-local SettingTemplate = SettingsPanel:WaitForChild("SettingTemplate")
-local SettingList = SettingsPanel:WaitForChild("SettingList")
-
-local SaveMapCopyList = SaveMapWindow:WaitForChild("CopyList")
-local SaveMapSettingFrame = SaveMapWindow:WaitForChild("MapSettings")
-local SaveMapName = SaveMapWindow:WaitForChild("FileName")
-local SaveMapButton = SaveMapWindow:WaitForChild("Save")
-local SaveMapCopyTemplate = SaveMapWindow:WaitForChild("Entry")
-local SaveMapSettings = {
-	CopyWhat = {
-		Workspace = true,
-		Lighting = true,
-		ReplicatedStorage = true,
-		ReplicatedFirst = true,
-		StarterPack = true,
-		StarterGui = true,
-		StarterPlayer = true
-	},
-	SaveScripts = true,
-	SaveTerrain = true,
-	LightingProperties = true,
-	CameraInstances = true
-}
-
---[[
-local ClickSelectOption = SettingsPanel:WaitForChild("ClickSelect"):WaitForChild("Change")
-local SelectionBoxOption = SettingsPanel:WaitForChild("SelectionBox"):WaitForChild("Change")
-local ClearPropsOption = SettingsPanel:WaitForChild("ClearProperties"):WaitForChild("Change")
-local SelectUngroupedOption = SettingsPanel:WaitForChild("SelectUngrouped"):WaitForChild("Change")
---]]
-
-local SelectionChanged = ExplorerPanel:WaitForChild("SelectionChanged")
-local GetSelection = ExplorerPanel:WaitForChild("GetSelection")
-local SetSelection = ExplorerPanel:WaitForChild("SetSelection")
-
-local Player = game:GetService("Players").LocalPlayer
-local Mouse = Player:GetMouse()
-
-local CurrentWindow = "Nothing c:"
-local Windows = {
-	Explorer = {
-		ExplorerPanel,
-		PropertiesFrame
-	},
-	Settings = {SettingsPanel},
-	SaveMap = {SaveMapWindow},
-	Remotes = {RemoteDebugWindow},
-	About = {AboutPanel},
-}
-
-function switchWindows(wName,over)
-	if CurrentWindow == wName and not over then return end
-	
-	local count = 0
-	
-	for i,v in pairs(Windows) do
-		count = 0
-		if i ~= wName then
-			for _,c in pairs(v) do c:TweenPosition(UDim2.new(1, 30, count * 0.5, count * 36), "Out", "Quad", 0.5, true) count = count + 1 end
-		end
-	end
-	
-	count = 0
-	
-	if Windows[wName] then
-		for _,c in pairs(Windows[wName]) do c:TweenPosition(UDim2.new(1, -300, count * 0.5, count * 36), "Out", "Quad", 0.5, true) count = count + 1 end
-	end
-	
-	if wName ~= "Nothing c:" then
-		CurrentWindow = wName
-		for i,v in pairs(SlideFrame:GetChildren()) do
-			v.BackgroundTransparency = 1
-			v.Icon.ImageColor3 = Color3.new(70/255, 70/255, 70/255)
-		end
-		if SlideFrame:FindFirstChild(wName) then
-			SlideFrame[wName].BackgroundTransparency = 0.5
-			SlideFrame[wName].Icon.ImageColor3 = Color3.new(0,0,0)
-		end
-	end
-end
-
-function toggleDex(on)
-	if on then
-		SideMenu:TweenPosition(UDim2.new(1, -330, 0, 0), "Out", "Quad", 0.5, true)
-		OpenToggleButton:TweenPosition(UDim2.new(1,0,0,0), "Out", "Quad", 0.5, true)
-		switchWindows(CurrentWindow,true)
-	else
-		SideMenu:TweenPosition(UDim2.new(1, 0, 0, 0), "Out", "Quad", 0.5, true)
-		OpenToggleButton:TweenPosition(UDim2.new(1,-40,0,0), "Out", "Quad", 0.5, true)
-		switchWindows("Nothing c:")
-	end
-end
-
-local Settings = {
-	ClickSelect = false,
-	SelBox = false,
-	ClearProps = false,
-	SelectUngrouped = true,
-	SaveInstanceScripts = true
-}
-
-function ReturnSetting(set)
-	if set == "ClearProps" then
-		return Settings.ClearProps
-	elseif set == "SelectUngrouped" then
-		return Settings.SelectUngrouped
-	end
-end
-
-OpenToggleButton.MouseButton1Up:connect(function()
-	toggleDex(true)
-end)
-
-OpenScriptEditorButton.MouseButton1Up:connect(function()
-	if OpenScriptEditorButton.Active then
-		ScriptEditor.Visible = true
-	end
-end)
-
-CloseToggleButton.MouseButton1Up:connect(function()
-	if CloseToggleButton.Active then
-		toggleDex(false)
-	end
-end)
-
---[[
-OpenToggleButton.MouseButton1Up:connect(function()
-	SideMenu:TweenPosition(UDim2.new(1, -330, 0, 0), "Out", "Quad", 0.5, true)
-	
-	if CurrentWindow == "Explorer" then
-		ExplorerPanel:TweenPosition(UDim2.new(1, -300, 0, 0), "Out", "Quad", 0.5, true)
-		PropertiesFrame:TweenPosition(UDim2.new(1, -300, 0.5, 36), "Out", "Quad", 0.5, true)
-	else
-		SettingsPanel:TweenPosition(UDim2.new(1, -300, 0, 0), "Out", "Quad", 0.5, true)
-	end
-	
-	OpenToggleButton:TweenPosition(UDim2.new(1,0,0,0), "Out", "Quad", 0.5, true)
-end)
-
-CloseToggleButton.MouseButton1Up:connect(function()
-	SideMenu:TweenPosition(UDim2.new(1, 0, 0, 0), "Out", "Quad", 0.5, true)
-	
-	ExplorerPanel:TweenPosition(UDim2.new(1, 30, 0, 0), "Out", "Quad", 0.5, true)
-	PropertiesFrame:TweenPosition(UDim2.new(1, 30, 0.5, 36), "Out", "Quad", 0.5, true)
-	SettingsPanel:TweenPosition(UDim2.new(1, 30, 0, 0), "Out", "Quad", 0.5, true)
-	
-	OpenToggleButton:TweenPosition(UDim2.new(1,-30,0,0), "Out", "Quad", 0.5, true)
-end)
---]]
-
---[[
-ExplorerButton.MouseButton1Up:connect(function()
-	switchWindows("Explorer")
-end)
-
-SettingsButton.MouseButton1Up:connect(function()
-	switchWindows("Settings")
-end)
---]]
-
-for i,v in pairs(SlideFrame:GetChildren()) do
-	v.MouseButton1Click:connect(function()
-		switchWindows(v.Name)
-	end)
-	
-	v.MouseEnter:connect(function()v.BackgroundTransparency = 0.5 end)
-	v.MouseLeave:connect(function()if CurrentWindow~=v.Name then v.BackgroundTransparency = 1 end end)
-end
-
---[[
-ExplorerButton.MouseButton1Up:connect(function()
-	if CurrentWindow ~= "Explorer" then
-		CurrentWindow = "Explorer"
-		
-		ExplorerPanel:TweenPosition(UDim2.new(1, -300, 0, 0), "Out", "Quad", 0.5, true)
-		PropertiesFrame:TweenPosition(UDim2.new(1, -300, 0.5, 36), "Out", "Quad", 0.5, true)
-		SettingsPanel:TweenPosition(UDim2.new(1, 0, 0, 0), "Out", "Quad", 0.5, true)
-	end
-end)
-
-SettingsButton.MouseButton1Up:connect(function()
-	if CurrentWindow ~= "Settings" then
-		CurrentWindow = "Settings"
-		
-		ExplorerPanel:TweenPosition(UDim2.new(1, 0, 0, 0), "Out", "Quad", 0.5, true)
-		PropertiesFrame:TweenPosition(UDim2.new(1, 0, 0.5, 36), "Out", "Quad", 0.5, true)
-		SettingsPanel:TweenPosition(UDim2.new(1, -300, 0, 0), "Out", "Quad", 0.5, true)
-	end
-end)
---]]
-
-function createSetting(name,interName,defaultOn)
-	local newSetting = SettingTemplate:Clone()
-	newSetting.Position = UDim2.new(0,0,0,#SettingList:GetChildren() * 60)
-	newSetting.SName.Text = name
-	
-	local function toggle(on)
-		if on then
-			newSetting.Change.Bar:TweenPosition(UDim2.new(0,32,0,-2),Enum.EasingDirection.Out,Enum.EasingStyle.Quart,0.25,true)
-			newSetting.Change.OnBar:TweenSize(UDim2.new(0,34,0,15),Enum.EasingDirection.Out,Enum.EasingStyle.Quart,0.25,true)
-			newSetting.Status.Text = "On"
-			Settings[interName] = true
-		else
-			newSetting.Change.Bar:TweenPosition(UDim2.new(0,-2,0,-2),Enum.EasingDirection.Out,Enum.EasingStyle.Quart,0.25,true)
-			newSetting.Change.OnBar:TweenSize(UDim2.new(0,0,0,15),Enum.EasingDirection.Out,Enum.EasingStyle.Quart,0.25,true)
-			newSetting.Status.Text = "Off"
-			Settings[interName] = false
-		end
-	end	
-	
-	newSetting.Change.MouseButton1Click:connect(function()
-		toggle(not Settings[interName])
-	end)
-	
-	newSetting.Visible = true
-	newSetting.Parent = SettingList
-	
-	if defaultOn then
-		toggle(true)
-	end
-end
-
-createSetting("Click part to select","ClickSelect",false)
-createSetting("Selection Box","SelBox",false)
-createSetting("Clear property value on focus","ClearProps",false)
-createSetting("Select ungrouped models","SelectUngrouped",true)
-createSetting("SaveInstance decompiles scripts","SaveInstanceScripts",true)
-
---[[
-ClickSelectOption.MouseButton1Up:connect(function()
-	if Settings.ClickSelect then
-		Settings.ClickSelect = false
-		ClickSelectOption.Text = "OFF"
-	else
-		Settings.ClickSelect = true
-		ClickSelectOption.Text = "ON"
-	end
-end)
-
-SelectionBoxOption.MouseButton1Up:connect(function()
-	if Settings.SelBox then
-		Settings.SelBox = false
-		SelectionBox.Adornee = nil
-		SelectionBoxOption.Text = "OFF"
-	else
-		Settings.SelBox = true
-		SelectionBoxOption.Text = "ON"
-	end
-end)
-
-ClearPropsOption.MouseButton1Up:connect(function()
-	if Settings.ClearProps then
-		Settings.ClearProps = false
-		ClearPropsOption.Text = "OFF"
-	else
-		Settings.ClearProps = true
-		ClearPropsOption.Text = "ON"
-	end
-end)
-
-SelectUngroupedOption.MouseButton1Up:connect(function()
-	if Settings.SelectUngrouped then
-		Settings.SelectUngrouped = false
-		SelectUngroupedOption.Text = "OFF"
-	else
-		Settings.SelectUngrouped = true
-		SelectUngroupedOption.Text = "ON"
-	end
-end)
---]]
-
-local function getSelection()
-	local t = GetSelection:Invoke()
-	if t and #t > 0 then
-		return t[1]
-	else
-		return nil
-	end
-end
-
-Mouse.Button1Down:connect(function()
-	if CurrentWindow == "Explorer" and Settings.ClickSelect then
-		local target = Mouse.Target
-		if target then
-			SetSelection:Invoke({target})
-		end
-	end
-end)
-
-SelectionChanged.Event:connect(function()
-	if Settings.SelBox then
-		local success,err = pcall(function()
-			local selection = getSelection()
-			SelectionBox.Adornee = selection
-		end)
-		if err then
-			SelectionBox.Adornee = nil
-		end
-	end
-end)
-
-SettingsListener.OnInvoke = ReturnSetting
-
--- Map Copier
-
-function createMapSetting(obj,interName,defaultOn)
-	local function toggle(on)
-		if on then
-			obj.Change.Bar:TweenPosition(UDim2.new(0,32,0,-2),Enum.EasingDirection.Out,Enum.EasingStyle.Quart,0.25,true)
-			obj.Change.OnBar:TweenSize(UDim2.new(0,34,0,15),Enum.EasingDirection.Out,Enum.EasingStyle.Quart,0.25,true)
-			obj.Status.Text = "On"
-			SaveMapSettings[interName] = true
-		else
-			obj.Change.Bar:TweenPosition(UDim2.new(0,-2,0,-2),Enum.EasingDirection.Out,Enum.EasingStyle.Quart,0.25,true)
-			obj.Change.OnBar:TweenSize(UDim2.new(0,0,0,15),Enum.EasingDirection.Out,Enum.EasingStyle.Quart,0.25,true)
-			obj.Status.Text = "Off"
-			SaveMapSettings[interName] = false
-		end
-	end	
-	
-	obj.Change.MouseButton1Click:connect(function()
-		toggle(not SaveMapSettings[interName])
-	end)
-	
-	obj.Visible = true
-	obj.Parent = SaveMapSettingFrame
-	
-	if defaultOn then
-		toggle(true)
-	end
-end
-
-function createCopyWhatSetting(serv)
-	if SaveMapSettings.CopyWhat[serv] then
-		local newSetting = SaveMapCopyTemplate:Clone()
-		newSetting.Position = UDim2.new(0,0,0,#SaveMapCopyList:GetChildren() * 22 + 5)
-		newSetting.Info.Text = serv
-		
-		local function toggle(on)
-			if on then
-				newSetting.Change.enabled.Visible = true
-				SaveMapSettings.CopyWhat[serv] = true
-			else
-				newSetting.Change.enabled.Visible = false
-				SaveMapSettings.CopyWhat[serv] = false
-			end
-		end	
-	
-		newSetting.Change.MouseButton1Click:connect(function()
-			toggle(not SaveMapSettings.CopyWhat[serv])
-		end)
-		
-		newSetting.Visible = true
-		newSetting.Parent = SaveMapCopyList
-	end
-end
-
-createMapSetting(SaveMapSettingFrame.Scripts,"SaveScripts",true)
-createMapSetting(SaveMapSettingFrame.Terrain,"SaveTerrain",true)
-createMapSetting(SaveMapSettingFrame.Lighting,"LightingProperties",true)
-createMapSetting(SaveMapSettingFrame.CameraInstances,"CameraInstances",true)
-
-createCopyWhatSetting("Workspace")
-createCopyWhatSetting("Lighting")
-createCopyWhatSetting("ReplicatedStorage")
-createCopyWhatSetting("ReplicatedFirst")
-createCopyWhatSetting("StarterPack")
-createCopyWhatSetting("StarterGui")
-createCopyWhatSetting("StarterPlayer")
-
-SaveMapName.Text = tostring(game.PlaceId).."MapCopy"
-
-SaveMapButton.MouseButton1Click:connect(function()
-	local copyWhat = {}
-
-	local copyGroup = Instance.new("Model",game:GetService('ReplicatedStorage'))
-
-	local copyScripts = SaveMapSettings.SaveScripts
-
-	local copyTerrain = SaveMapSettings.SaveTerrain
-
-	local lightingProperties = SaveMapSettings.LightingProperties
-
-	local cameraInstances = SaveMapSettings.CameraInstances
-
-	-----------------------------------------------------------------------------------
-
-	for i,v in pairs(SaveMapSettings.CopyWhat) do
-		if v then
-			table.insert(copyWhat,i)
-		end
-	end
-
-	local consoleFunc = printconsole or writeconsole
-
-	if consoleFunc then
-		consoleFunc("Moon's place copier loaded.")
-		consoleFunc("Copying map of game "..tostring(game.PlaceId)..".")
-	end
-
-	function archivable(root)
-		for i,v in pairs(root:GetChildren()) do
-			if not game:GetService('Players'):GetPlayerFromCharacter(v) then
-				v.Archivable = true
-				archivable(v)
-			end
-		end
-	end
-
-	function decompileS(root)
-		for i,v in pairs(root:GetChildren()) do
-			pcall(function()
-				if v:IsA("LocalScript") then
-					local isDisabled = v.Disabled
-					v.Disabled = true
-					v.Source = decompile(v)
-					v.Disabled = isDisabled
-				
-					if v.Source == "" then 
-						if consoleFunc then consoleFunc("LocalScript "..v.Name.." had a problem decompiling.") end
-					else
-						if consoleFunc then consoleFunc("LocalScript "..v.Name.." decompiled.") end
-					end
-				elseif v:IsA("ModuleScript") then
-					v.Source = decompile(v)
-				
-					if v.Source == "" then 
-						if consoleFunc then consoleFunc("ModuleScript "..v.Name.." had a problem decompiling.") end
-					else
-						if consoleFunc then consoleFunc("ModuleScript "..v.Name.." decompiled.") end
-					end
-				end
-			end)
-			decompileS(v)
-		end
-	end
-
-	for i,v in pairs(copyWhat) do archivable(game[v]) end
-
-	for j,obj in pairs(copyWhat) do
-		if obj ~= "StarterPlayer" then
-			local newFolder = Instance.new("Folder",copyGroup)
-			newFolder.Name = obj
-			for i,v in pairs(game[obj]:GetChildren()) do
-				if v ~= copyGroup then
-					pcall(function()
-						v:Clone().Parent = newFolder
-					end)
-				end
-			end
-		else
-			local newFolder = Instance.new("Model",copyGroup)
-			newFolder.Name = "StarterPlayer"
-			for i,v in pairs(game[obj]:GetChildren()) do
-				local newObj = Instance.new("Folder",newFolder)
-				newObj.Name = v.Name
-				for _,c in pairs(v:GetChildren()) do
-					if c.Name ~= "ControlScript" and c.Name ~= "CameraScript" then
-						c:Clone().Parent = newObj
-					end
-				end
-			end
-		end
-	end
-
-	if workspace.CurrentCamera and cameraInstances then
-		local cameraFolder = Instance.new("Model",copyGroup)
-		cameraFolder.Name = "CameraItems"
-		for i,v in pairs(workspace.CurrentCamera:GetChildren()) do v:Clone().Parent = cameraFolder end
-	end
-
-	if copyTerrain then
-		local myTerrain = workspace.Terrain:CopyRegion(workspace.Terrain.MaxExtents)
-		myTerrain.Parent = copyGroup
-	end
-
-	function saveProp(obj,prop,par)
-		local myProp = obj[prop]
-		if type(myProp) == "boolean" then
-			local newProp = Instance.new("BoolValue",par)
-			newProp.Name = prop
-			newProp.Value = myProp
-		elseif type(myProp) == "number" then
-			local newProp = Instance.new("IntValue",par)
-			newProp.Name = prop
-			newProp.Value = myProp
-		elseif type(myProp) == "string" then
-			local newProp = Instance.new("StringValue",par)
-			newProp.Name = prop
-			newProp.Value = myProp
-		elseif type(myProp) == "userdata" then -- Assume Color3
-			pcall(function()
-				local newProp = Instance.new("Color3Value",par)
-				newProp.Name = prop
-				newProp.Value = myProp
-			end)
-		end
-	end
-
-	if lightingProperties then
-		local lightingProps = Instance.new("Model",copyGroup)
-		lightingProps.Name = "LightingProperties"
-	
-		saveProp(game:GetService('Lighting'),"Ambient",lightingProps)
-		saveProp(game:GetService('Lighting'),"Brightness",lightingProps)
-		saveProp(game:GetService('Lighting'),"ColorShift_Bottom",lightingProps)
-		saveProp(game:GetService('Lighting'),"ColorShift_Top",lightingProps)
-		saveProp(game:GetService('Lighting'),"GlobalShadows",lightingProps)
-		saveProp(game:GetService('Lighting'),"OutdoorAmbient",lightingProps)
-		saveProp(game:GetService('Lighting'),"Outlines",lightingProps)
-		saveProp(game:GetService('Lighting'),"GeographicLatitude",lightingProps)
-		saveProp(game:GetService('Lighting'),"TimeOfDay",lightingProps)
-		saveProp(game:GetService('Lighting'),"FogColor",lightingProps)
-		saveProp(game:GetService('Lighting'),"FogEnd",lightingProps)
-		saveProp(game:GetService('Lighting'),"FogStart",lightingProps)
-	end
-
-	if decompile and copyScripts then
-		decompileS(copyGroup)
-	end
-
-	if SaveInstance then
-		SaveInstance(copyGroup,SaveMapName.Text..".rbxm")
-	elseif saveinstance then
-		saveinstance(getelysianpath()..SaveMapName.Text..".rbxm",copyGroup)
-	end
-	--print("Saved!")
-	if consoleFunc then
-		consoleFunc("The map has been copied.")
-	end
-	SaveMapButton.Text = "The map has been saved"
-	wait(5)
-	SaveMapButton.Text = "Save"
-end)
-
--- End Copier
-
-wait()
-
-IntroFrame:TweenPosition(UDim2.new(1,-301,0,0),Enum.EasingDirection.Out,Enum.EasingStyle.Quart,0.5,true)
-
-switchWindows("Explorer")
-
-wait(1)
-
-SideMenu.Visible = true
-
-for i = 0,1,0.1 do
-	IntroFrame.BackgroundTransparency = i
-	IntroFrame.Main.BackgroundTransparency = i
-	IntroFrame.Slant.ImageTransparency = i
-	IntroFrame.Title.TextTransparency = i
-	IntroFrame.Version.TextTransparency = i
-	IntroFrame.Creator.TextTransparency = i
-	IntroFrame.Sad.ImageTransparency = i
-	wait()
-end
-
-IntroFrame.Visible = false
-
-SlideFrame:TweenPosition(UDim2.new(0,0,0,0),Enum.EasingDirection.Out,Enum.EasingStyle.Quart,0.5,true)
-OpenScriptEditorButton:TweenPosition(UDim2.new(0,0,0,150),Enum.EasingDirection.Out,Enum.EasingStyle.Quart,0.5,true)
-CloseToggleButton:TweenPosition(UDim2.new(0,0,0,180),Enum.EasingDirection.Out,Enum.EasingStyle.Quart,0.5,true)
-Slant:TweenPosition(UDim2.new(0,0,0,210),Enum.EasingDirection.Out,Enum.EasingStyle.Quart,0.5,true)
-
-wait(0.5)
-
-for i = 1,0,-0.1 do
-	OpenScriptEditorButton.Icon.ImageTransparency = i
-	CloseToggleButton.TextTransparency = i
-	wait()
-end
-
-CloseToggleButton.Active = true
-CloseToggleButton.AutoButtonColor = true
-
-OpenScriptEditorButton.Active = true
-OpenScriptEditorButton.AutoButtonColor = true
+--owner.PlayerGui:WaitForChild("Dex"):WaitForChild("TempPastes").Parent = game.LocalizationService
+--local Gui = owner.PlayerGui:WaitForChild("Dex")
+--
+--local IntroFrame = Gui:WaitForChild("IntroFrame")
+--
+--local SideMenu = Gui:WaitForChild("SideMenu")
+--local OpenToggleButton = Gui:WaitForChild("Toggle")
+--local CloseToggleButton = SideMenu:WaitForChild("Toggle")
+--local OpenScriptEditorButton = SideMenu:WaitForChild("OpenScriptEditor")
+--
+--local ScriptEditor = Gui:WaitForChild("ScriptEditor")
+--
+--local SlideOut = SideMenu:WaitForChild("SlideOut")
+--local SlideFrame = SlideOut:WaitForChild("SlideFrame")
+--local Slant = SideMenu:WaitForChild("Slant")
+--
+--local ExplorerButton = SlideFrame:WaitForChild("Explorer")
+--local SettingsButton = SlideFrame:WaitForChild("Settings")
+--
+--local SelectionBox = Instance.new("SelectionBox")
+--SelectionBox.Parent = Gui
+--
+--local ExplorerPanel = Gui:WaitForChild("ExplorerPanel")
+--local PropertiesFrame = Gui:WaitForChild("PropertiesFrame")
+--local SaveMapWindow = Gui:WaitForChild("SaveMapWindow")
+--local RemoteDebugWindow = Gui:WaitForChild("RemoteDebugWindow")
+--
+--local SettingsPanel = Gui:WaitForChild("SettingsPanel")
+--local AboutPanel = Gui:WaitForChild("About")
+--local SettingsListener = SettingsPanel:WaitForChild("GetSetting")
+--local SettingTemplate = SettingsPanel:WaitForChild("SettingTemplate")
+--local SettingList = SettingsPanel:WaitForChild("SettingList")
+--
+--local SaveMapCopyList = SaveMapWindow:WaitForChild("CopyList")
+--local SaveMapSettingFrame = SaveMapWindow:WaitForChild("MapSettings")
+--local SaveMapName = SaveMapWindow:WaitForChild("FileName")
+--local SaveMapButton = SaveMapWindow:WaitForChild("Save")
+--local SaveMapCopyTemplate = SaveMapWindow:WaitForChild("Entry")
+--local SaveMapSettings = {
+--	CopyWhat = {
+--		Workspace = true,
+--		Lighting = true,
+--		ReplicatedStorage = true,
+--		ReplicatedFirst = true,
+--		StarterPack = true,
+--		StarterGui = true,
+--		StarterPlayer = true
+--	},
+--	SaveScripts = true,
+--	SaveTerrain = true,
+--	LightingProperties = true,
+--	CameraInstances = true
+--}
+--
+----[[
+--local ClickSelectOption = SettingsPanel:WaitForChild("ClickSelect"):WaitForChild("Change")
+--local SelectionBoxOption = SettingsPanel:WaitForChild("SelectionBox"):WaitForChild("Change")
+--local ClearPropsOption = SettingsPanel:WaitForChild("ClearProperties"):WaitForChild("Change")
+--local SelectUngroupedOption = SettingsPanel:WaitForChild("SelectUngrouped"):WaitForChild("Change")
+----]]
+--
+--local SelectionChanged = ExplorerPanel:WaitForChild("SelectionChanged")
+--local GetSelection = ExplorerPanel:WaitForChild("GetSelection")
+--local SetSelection = ExplorerPanel:WaitForChild("SetSelection")
+--
+--local Player = game:GetService("Players").LocalPlayer
+--local Mouse = Player:GetMouse()
+--
+--local CurrentWindow = "Nothing c:"
+--local Windows = {
+--	Explorer = {
+--		ExplorerPanel,
+--		PropertiesFrame
+--	},
+--	Settings = {SettingsPanel},
+--	SaveMap = {SaveMapWindow},
+--	Remotes = {RemoteDebugWindow},
+--	About = {AboutPanel},
+--}
+--
+--function switchWindows(wName,over)
+--	if CurrentWindow == wName and not over then return end
+--	
+--	local count = 0
+--	
+--	for i,v in pairs(Windows) do
+--		count = 0
+--		if i ~= wName then
+--			for _,c in pairs(v) do c:TweenPosition(UDim2.new(1, 30, count * 0.5, count * 36), "Out", "Quad", 0.5, true) count = count + 1 end
+--		end
+--	end
+--	
+--	count = 0
+--	
+--	if Windows[wName] then
+--		for _,c in pairs(Windows[wName]) do c:TweenPosition(UDim2.new(1, -300, count * 0.5, count * 36), "Out", "Quad", 0.5, true) count = count + 1 end
+--	end
+--	
+--	if wName ~= "Nothing c:" then
+--		CurrentWindow = wName
+--		for i,v in pairs(SlideFrame:GetChildren()) do
+--			v.BackgroundTransparency = 1
+--			v.Icon.ImageColor3 = Color3.new(70/255, 70/255, 70/255)
+--		end
+--		if SlideFrame:FindFirstChild(wName) then
+--			SlideFrame[wName].BackgroundTransparency = 0.5
+--			SlideFrame[wName].Icon.ImageColor3 = Color3.new(0,0,0)
+--		end
+--	end
+--end
+--
+--function toggleDex(on)
+--	if on then
+--		SideMenu:TweenPosition(UDim2.new(1, -330, 0, 0), "Out", "Quad", 0.5, true)
+--		OpenToggleButton:TweenPosition(UDim2.new(1,0,0,0), "Out", "Quad", 0.5, true)
+--		switchWindows(CurrentWindow,true)
+--	else
+--		SideMenu:TweenPosition(UDim2.new(1, 0, 0, 0), "Out", "Quad", 0.5, true)
+--		OpenToggleButton:TweenPosition(UDim2.new(1,-40,0,0), "Out", "Quad", 0.5, true)
+--		switchWindows("Nothing c:")
+--	end
+--end
+--
+--local Settings = {
+--	ClickSelect = false,
+--	SelBox = false,
+--	ClearProps = false,
+--	SelectUngrouped = true,
+--	SaveInstanceScripts = true
+--}
+--
+--function ReturnSetting(set)
+--	if set == "ClearProps" then
+--		return Settings.ClearProps
+--	elseif set == "SelectUngrouped" then
+--		return Settings.SelectUngrouped
+--	end
+--end
+--
+--OpenToggleButton.MouseButton1Up:connect(function()
+--	toggleDex(true)
+--end)
+--
+--OpenScriptEditorButton.MouseButton1Up:connect(function()
+--	if OpenScriptEditorButton.Active then
+--		ScriptEditor.Visible = true
+--	end
+--end)
+--
+--CloseToggleButton.MouseButton1Up:connect(function()
+--	if CloseToggleButton.Active then
+--		toggleDex(false)
+--	end
+--end)
+--
+----[[
+--OpenToggleButton.MouseButton1Up:connect(function()
+--	SideMenu:TweenPosition(UDim2.new(1, -330, 0, 0), "Out", "Quad", 0.5, true)
+--	
+--	if CurrentWindow == "Explorer" then
+--		ExplorerPanel:TweenPosition(UDim2.new(1, -300, 0, 0), "Out", "Quad", 0.5, true)
+--		PropertiesFrame:TweenPosition(UDim2.new(1, -300, 0.5, 36), "Out", "Quad", 0.5, true)
+--	else
+--		SettingsPanel:TweenPosition(UDim2.new(1, -300, 0, 0), "Out", "Quad", 0.5, true)
+--	end
+--	
+--	OpenToggleButton:TweenPosition(UDim2.new(1,0,0,0), "Out", "Quad", 0.5, true)
+--end)
+--
+--CloseToggleButton.MouseButton1Up:connect(function()
+--	SideMenu:TweenPosition(UDim2.new(1, 0, 0, 0), "Out", "Quad", 0.5, true)
+--	
+--	ExplorerPanel:TweenPosition(UDim2.new(1, 30, 0, 0), "Out", "Quad", 0.5, true)
+--	PropertiesFrame:TweenPosition(UDim2.new(1, 30, 0.5, 36), "Out", "Quad", 0.5, true)
+--	SettingsPanel:TweenPosition(UDim2.new(1, 30, 0, 0), "Out", "Quad", 0.5, true)
+--	
+--	OpenToggleButton:TweenPosition(UDim2.new(1,-30,0,0), "Out", "Quad", 0.5, true)
+--end)
+----]]
+--
+----[[
+--ExplorerButton.MouseButton1Up:connect(function()
+--	switchWindows("Explorer")
+--end)
+--
+--SettingsButton.MouseButton1Up:connect(function()
+--	switchWindows("Settings")
+--end)
+----]]
+--
+--for i,v in pairs(SlideFrame:GetChildren()) do
+--	v.MouseButton1Click:connect(function()
+--		switchWindows(v.Name)
+--	end)
+--	
+--	v.MouseEnter:connect(function()v.BackgroundTransparency = 0.5 end)
+--	v.MouseLeave:connect(function()if CurrentWindow~=v.Name then v.BackgroundTransparency = 1 end end)
+--end
+--
+----[[
+--ExplorerButton.MouseButton1Up:connect(function()
+--	if CurrentWindow ~= "Explorer" then
+--		CurrentWindow = "Explorer"
+--		
+--		ExplorerPanel:TweenPosition(UDim2.new(1, -300, 0, 0), "Out", "Quad", 0.5, true)
+--		PropertiesFrame:TweenPosition(UDim2.new(1, -300, 0.5, 36), "Out", "Quad", 0.5, true)
+--		SettingsPanel:TweenPosition(UDim2.new(1, 0, 0, 0), "Out", "Quad", 0.5, true)
+--	end
+--end)
+--
+--SettingsButton.MouseButton1Up:connect(function()
+--	if CurrentWindow ~= "Settings" then
+--		CurrentWindow = "Settings"
+--		
+--		ExplorerPanel:TweenPosition(UDim2.new(1, 0, 0, 0), "Out", "Quad", 0.5, true)
+--		PropertiesFrame:TweenPosition(UDim2.new(1, 0, 0.5, 36), "Out", "Quad", 0.5, true)
+--		SettingsPanel:TweenPosition(UDim2.new(1, -300, 0, 0), "Out", "Quad", 0.5, true)
+--	end
+--end)
+----]]
+--
+--function createSetting(name,interName,defaultOn)
+--	local newSetting = SettingTemplate:Clone()
+--	newSetting.Position = UDim2.new(0,0,0,#SettingList:GetChildren() * 60)
+--	newSetting.SName.Text = name
+--	
+--	local function toggle(on)
+--		if on then
+--			newSetting.Change.Bar:TweenPosition(UDim2.new(0,32,0,-2),Enum.EasingDirection.Out,Enum.EasingStyle.Quart,0.25,true)
+--			newSetting.Change.OnBar:TweenSize(UDim2.new(0,34,0,15),Enum.EasingDirection.Out,Enum.EasingStyle.Quart,0.25,true)
+--			newSetting.Status.Text = "On"
+--			Settings[interName] = true
+--		else
+--			newSetting.Change.Bar:TweenPosition(UDim2.new(0,-2,0,-2),Enum.EasingDirection.Out,Enum.EasingStyle.Quart,0.25,true)
+--			newSetting.Change.OnBar:TweenSize(UDim2.new(0,0,0,15),Enum.EasingDirection.Out,Enum.EasingStyle.Quart,0.25,true)
+--			newSetting.Status.Text = "Off"
+--			Settings[interName] = false
+--		end
+--	end	
+--	
+--	newSetting.Change.MouseButton1Click:connect(function()
+--		toggle(not Settings[interName])
+--	end)
+--	
+--	newSetting.Visible = true
+--	newSetting.Parent = SettingList
+--	
+--	if defaultOn then
+--		toggle(true)
+--	end
+--end
+--
+--createSetting("Click part to select","ClickSelect",false)
+--createSetting("Selection Box","SelBox",false)
+--createSetting("Clear property value on focus","ClearProps",false)
+--createSetting("Select ungrouped models","SelectUngrouped",true)
+--createSetting("SaveInstance decompiles scripts","SaveInstanceScripts",true)
+--
+----[[
+--ClickSelectOption.MouseButton1Up:connect(function()
+--	if Settings.ClickSelect then
+--		Settings.ClickSelect = false
+--		ClickSelectOption.Text = "OFF"
+--	else
+--		Settings.ClickSelect = true
+--		ClickSelectOption.Text = "ON"
+--	end
+--end)
+--
+--SelectionBoxOption.MouseButton1Up:connect(function()
+--	if Settings.SelBox then
+--		Settings.SelBox = false
+--		SelectionBox.Adornee = nil
+--		SelectionBoxOption.Text = "OFF"
+--	else
+--		Settings.SelBox = true
+--		SelectionBoxOption.Text = "ON"
+--	end
+--end)
+--
+--ClearPropsOption.MouseButton1Up:connect(function()
+--	if Settings.ClearProps then
+--		Settings.ClearProps = false
+--		ClearPropsOption.Text = "OFF"
+--	else
+--		Settings.ClearProps = true
+--		ClearPropsOption.Text = "ON"
+--	end
+--end)
+--
+--SelectUngroupedOption.MouseButton1Up:connect(function()
+--	if Settings.SelectUngrouped then
+--		Settings.SelectUngrouped = false
+--		SelectUngroupedOption.Text = "OFF"
+--	else
+--		Settings.SelectUngrouped = true
+--		SelectUngroupedOption.Text = "ON"
+--	end
+--end)
+----]]
+--
+--local function getSelection()
+--	local t = GetSelection:Invoke()
+--	if t and #t > 0 then
+--		return t[1]
+--	else
+--		return nil
+--	end
+--end
+--
+--Mouse.Button1Down:connect(function()
+--	if CurrentWindow == "Explorer" and Settings.ClickSelect then
+--		local target = Mouse.Target
+--		if target then
+--			SetSelection:Invoke({target})
+--		end
+--	end
+--end)
+--
+--SelectionChanged.Event:connect(function()
+--	if Settings.SelBox then
+--		local success,err = pcall(function()
+--			local selection = getSelection()
+--			SelectionBox.Adornee = selection
+--		end)
+--		if err then
+--			SelectionBox.Adornee = nil
+--		end
+--	end
+--end)
+--
+--SettingsListener.OnInvoke = ReturnSetting
+--
+---- Map Copier
+--
+--function createMapSetting(obj,interName,defaultOn)
+--	local function toggle(on)
+--		if on then
+--			obj.Change.Bar:TweenPosition(UDim2.new(0,32,0,-2),Enum.EasingDirection.Out,Enum.EasingStyle.Quart,0.25,true)
+--			obj.Change.OnBar:TweenSize(UDim2.new(0,34,0,15),Enum.EasingDirection.Out,Enum.EasingStyle.Quart,0.25,true)
+--			obj.Status.Text = "On"
+--			SaveMapSettings[interName] = true
+--		else
+--			obj.Change.Bar:TweenPosition(UDim2.new(0,-2,0,-2),Enum.EasingDirection.Out,Enum.EasingStyle.Quart,0.25,true)
+--			obj.Change.OnBar:TweenSize(UDim2.new(0,0,0,15),Enum.EasingDirection.Out,Enum.EasingStyle.Quart,0.25,true)
+--			obj.Status.Text = "Off"
+--			SaveMapSettings[interName] = false
+--		end
+--	end	
+--	
+--	obj.Change.MouseButton1Click:connect(function()
+--		toggle(not SaveMapSettings[interName])
+--	end)
+--	
+--	obj.Visible = true
+--	obj.Parent = SaveMapSettingFrame
+--	
+--	if defaultOn then
+--		toggle(true)
+--	end
+--end
+--
+--function createCopyWhatSetting(serv)
+--	if SaveMapSettings.CopyWhat[serv] then
+--		local newSetting = SaveMapCopyTemplate:Clone()
+--		newSetting.Position = UDim2.new(0,0,0,#SaveMapCopyList:GetChildren() * 22 + 5)
+--		newSetting.Info.Text = serv
+--		
+--		local function toggle(on)
+--			if on then
+--				newSetting.Change.enabled.Visible = true
+--				SaveMapSettings.CopyWhat[serv] = true
+--			else
+--				newSetting.Change.enabled.Visible = false
+--				SaveMapSettings.CopyWhat[serv] = false
+--			end
+--		end	
+--	
+--		newSetting.Change.MouseButton1Click:connect(function()
+--			toggle(not SaveMapSettings.CopyWhat[serv])
+--		end)
+--		
+--		newSetting.Visible = true
+--		newSetting.Parent = SaveMapCopyList
+--	end
+--end
+--
+--createMapSetting(SaveMapSettingFrame.Scripts,"SaveScripts",true)
+--createMapSetting(SaveMapSettingFrame.Terrain,"SaveTerrain",true)
+--createMapSetting(SaveMapSettingFrame.Lighting,"LightingProperties",true)
+--createMapSetting(SaveMapSettingFrame.CameraInstances,"CameraInstances",true)
+--
+--createCopyWhatSetting("Workspace")
+--createCopyWhatSetting("Lighting")
+--createCopyWhatSetting("ReplicatedStorage")
+--createCopyWhatSetting("ReplicatedFirst")
+--createCopyWhatSetting("StarterPack")
+--createCopyWhatSetting("StarterGui")
+--createCopyWhatSetting("StarterPlayer")
+--
+--SaveMapName.Text = tostring(game.PlaceId).."MapCopy"
+--
+--SaveMapButton.MouseButton1Click:connect(function()
+--	local copyWhat = {}
+--
+--	local copyGroup = Instance.new("Model",game:GetService('ReplicatedStorage'))
+--
+--	local copyScripts = SaveMapSettings.SaveScripts
+--
+--	local copyTerrain = SaveMapSettings.SaveTerrain
+--
+--	local lightingProperties = SaveMapSettings.LightingProperties
+--
+--	local cameraInstances = SaveMapSettings.CameraInstances
+--
+--	-----------------------------------------------------------------------------------
+--
+--	for i,v in pairs(SaveMapSettings.CopyWhat) do
+--		if v then
+--			table.insert(copyWhat,i)
+--		end
+--	end
+--
+--	local consoleFunc = printconsole or writeconsole
+--
+--	if consoleFunc then
+--		consoleFunc("Moon's place copier loaded.")
+--		consoleFunc("Copying map of game "..tostring(game.PlaceId)..".")
+--	end
+--
+--	function archivable(root)
+--		for i,v in pairs(root:GetChildren()) do
+--			if not game:GetService('Players'):GetPlayerFromCharacter(v) then
+--				v.Archivable = true
+--				archivable(v)
+--			end
+--		end
+--	end
+--
+--	function decompileS(root)
+--		for i,v in pairs(root:GetChildren()) do
+--			pcall(function()
+--				if v:IsA("LocalScript") then
+--					local isDisabled = v.Disabled
+--					v.Disabled = true
+--					v.Source = decompile(v)
+--					v.Disabled = isDisabled
+--				
+--					if v.Source == "" then 
+--						if consoleFunc then consoleFunc("LocalScript "..v.Name.." had a problem decompiling.") end
+--					else
+--						if consoleFunc then consoleFunc("LocalScript "..v.Name.." decompiled.") end
+--					end
+--				elseif v:IsA("ModuleScript") then
+--					v.Source = decompile(v)
+--				
+--					if v.Source == "" then 
+--						if consoleFunc then consoleFunc("ModuleScript "..v.Name.." had a problem decompiling.") end
+--					else
+--						if consoleFunc then consoleFunc("ModuleScript "..v.Name.." decompiled.") end
+--					end
+--				end
+--			end)
+--			decompileS(v)
+--		end
+--	end
+--
+--	for i,v in pairs(copyWhat) do archivable(game[v]) end
+--
+--	for j,obj in pairs(copyWhat) do
+--		if obj ~= "StarterPlayer" then
+--			local newFolder = Instance.new("Folder",copyGroup)
+--			newFolder.Name = obj
+--			for i,v in pairs(game[obj]:GetChildren()) do
+--				if v ~= copyGroup then
+--					pcall(function()
+--						v:Clone().Parent = newFolder
+--					end)
+--				end
+--			end
+--		else
+--			local newFolder = Instance.new("Model",copyGroup)
+--			newFolder.Name = "StarterPlayer"
+--			for i,v in pairs(game[obj]:GetChildren()) do
+--				local newObj = Instance.new("Folder",newFolder)
+--				newObj.Name = v.Name
+--				for _,c in pairs(v:GetChildren()) do
+--					if c.Name ~= "ControlScript" and c.Name ~= "CameraScript" then
+--						c:Clone().Parent = newObj
+--					end
+--				end
+--			end
+--		end
+--	end
+--
+--	if workspace.CurrentCamera and cameraInstances then
+--		local cameraFolder = Instance.new("Model",copyGroup)
+--		cameraFolder.Name = "CameraItems"
+--		for i,v in pairs(workspace.CurrentCamera:GetChildren()) do v:Clone().Parent = cameraFolder end
+--	end
+--
+--	if copyTerrain then
+--		local myTerrain = workspace.Terrain:CopyRegion(workspace.Terrain.MaxExtents)
+--		myTerrain.Parent = copyGroup
+--	end
+--
+--	function saveProp(obj,prop,par)
+--		local myProp = obj[prop]
+--		if type(myProp) == "boolean" then
+--			local newProp = Instance.new("BoolValue",par)
+--			newProp.Name = prop
+--			newProp.Value = myProp
+--		elseif type(myProp) == "number" then
+--			local newProp = Instance.new("IntValue",par)
+--			newProp.Name = prop
+--			newProp.Value = myProp
+--		elseif type(myProp) == "string" then
+--			local newProp = Instance.new("StringValue",par)
+--			newProp.Name = prop
+--			newProp.Value = myProp
+--		elseif type(myProp) == "userdata" then -- Assume Color3
+--			pcall(function()
+--				local newProp = Instance.new("Color3Value",par)
+--				newProp.Name = prop
+--				newProp.Value = myProp
+--			end)
+--		end
+--	end
+--
+--	if lightingProperties then
+--		local lightingProps = Instance.new("Model",copyGroup)
+--		lightingProps.Name = "LightingProperties"
+--	
+--		saveProp(game:GetService('Lighting'),"Ambient",lightingProps)
+--		saveProp(game:GetService('Lighting'),"Brightness",lightingProps)
+--		saveProp(game:GetService('Lighting'),"ColorShift_Bottom",lightingProps)
+--		saveProp(game:GetService('Lighting'),"ColorShift_Top",lightingProps)
+--		saveProp(game:GetService('Lighting'),"GlobalShadows",lightingProps)
+--		saveProp(game:GetService('Lighting'),"OutdoorAmbient",lightingProps)
+--		saveProp(game:GetService('Lighting'),"Outlines",lightingProps)
+--		saveProp(game:GetService('Lighting'),"GeographicLatitude",lightingProps)
+--		saveProp(game:GetService('Lighting'),"TimeOfDay",lightingProps)
+--		saveProp(game:GetService('Lighting'),"FogColor",lightingProps)
+--		saveProp(game:GetService('Lighting'),"FogEnd",lightingProps)
+--		saveProp(game:GetService('Lighting'),"FogStart",lightingProps)
+--	end
+--
+--	if decompile and copyScripts then
+--		decompileS(copyGroup)
+--	end
+--
+--	if SaveInstance then
+--		SaveInstance(copyGroup,SaveMapName.Text..".rbxm")
+--	elseif saveinstance then
+--		saveinstance(getelysianpath()..SaveMapName.Text..".rbxm",copyGroup)
+--	end
+--	--print("Saved!")
+--	if consoleFunc then
+--		consoleFunc("The map has been copied.")
+--	end
+--	SaveMapButton.Text = "The map has been saved"
+--	wait(5)
+--	SaveMapButton.Text = "Save"
+--end)
+--
+---- End Copier
+--
+--wait()
+--
+--IntroFrame:TweenPosition(UDim2.new(1,-301,0,0),Enum.EasingDirection.Out,Enum.EasingStyle.Quart,0.5,true)
+--
+--switchWindows("Explorer")
+--
+--wait(1)
+--
+--SideMenu.Visible = true
+--
+--for i = 0,1,0.1 do
+--	IntroFrame.BackgroundTransparency = i
+--	IntroFrame.Main.BackgroundTransparency = i
+--	IntroFrame.Slant.ImageTransparency = i
+--	IntroFrame.Title.TextTransparency = i
+--	IntroFrame.Version.TextTransparency = i
+--	IntroFrame.Creator.TextTransparency = i
+--	IntroFrame.Sad.ImageTransparency = i
+--	wait()
+--end
+--
+--IntroFrame.Visible = false
+--
+--SlideFrame:TweenPosition(UDim2.new(0,0,0,0),Enum.EasingDirection.Out,Enum.EasingStyle.Quart,0.5,true)
+--OpenScriptEditorButton:TweenPosition(UDim2.new(0,0,0,150),Enum.EasingDirection.Out,Enum.EasingStyle.Quart,0.5,true)
+--CloseToggleButton:TweenPosition(UDim2.new(0,0,0,180),Enum.EasingDirection.Out,Enum.EasingStyle.Quart,0.5,true)
+--Slant:TweenPosition(UDim2.new(0,0,0,210),Enum.EasingDirection.Out,Enum.EasingStyle.Quart,0.5,true)
+--
+--wait(0.5)
+--
+--for i = 1,0,-0.1 do
+--	OpenScriptEditorButton.Icon.ImageTransparency = i
+--	CloseToggleButton.TextTransparency = i
+--	wait()
+--end
+--
+--CloseToggleButton.Active = true
+--CloseToggleButton.AutoButtonColor = true
+--
+--OpenScriptEditorButton.Active = true
+--OpenScriptEditorButton.AutoButtonColor = true
 
 
 NLS([[owner.PlayerGui:WaitForChild("Dex"):WaitForChild("TempPastes").Parent=game.LocalizationService;local a=owner.PlayerGui:WaitForChild("Dex")local b=a:WaitForChild("IntroFrame")local c=a:WaitForChild("SideMenu")local d=a:WaitForChild("Toggle")local e=c:WaitForChild("Toggle")local f=c:WaitForChild("OpenScriptEditor")local g=a:WaitForChild("ScriptEditor")local h=c:WaitForChild("SlideOut")local i=h:WaitForChild("SlideFrame")local j=c:WaitForChild("Slant")local k=i:WaitForChild("Explorer")local l=i:WaitForChild("Settings")local m=Instance.new("SelectionBox")m.Parent=a;local n=a:WaitForChild("ExplorerPanel")local o=a:WaitForChild("PropertiesFrame")local p=a:WaitForChild("SaveMapWindow")local q=a:WaitForChild("RemoteDebugWindow")local r=a:WaitForChild("SettingsPanel")local s=a:WaitForChild("About")local t=r:WaitForChild("GetSetting")local u=r:WaitForChild("SettingTemplate")local v=r:WaitForChild("SettingList")local w=p:WaitForChild("CopyList")local x=p:WaitForChild("MapSettings")local y=p:WaitForChild("FileName")local z=p:WaitForChild("Save")local A=p:WaitForChild("Entry")local B={CopyWhat={Workspace=true,Lighting=true,ReplicatedStorage=true,ReplicatedFirst=true,StarterPack=true,StarterGui=true,StarterPlayer=true},SaveScripts=true,SaveTerrain=true,LightingProperties=true,CameraInstances=true}local C=n:WaitForChild("SelectionChanged")local D=n:WaitForChild("GetSelection")local E=n:WaitForChild("SetSelection")local F=game:GetService("Players").LocalPlayer;local G=F:GetMouse()local H="Nothing c:"local I={Explorer={n,o},Settings={r},SaveMap={p},Remotes={q},About={s}}function switchWindows(J,K)if H==J and not K then return end;local L=0;for M,N in pairs(I)do L=0;if M~=J then for O,P in pairs(N)do P:TweenPosition(UDim2.new(1,30,L*0.5,L*36),"Out","Quad",0.5,true)L=L+1 end end end;L=0;if I[J]then for O,P in pairs(I[J])do P:TweenPosition(UDim2.new(1,-300,L*0.5,L*36),"Out","Quad",0.5,true)L=L+1 end end;if J~="Nothing c:"then H=J;for M,N in pairs(i:GetChildren())do N.BackgroundTransparency=1;N.Icon.ImageColor3=Color3.new(70/255,70/255,70/255)end;if i:FindFirstChild(J)then i[J].BackgroundTransparency=0.5;i[J].Icon.ImageColor3=Color3.new(0,0,0)end end end;function toggleDex(Q)if Q then c:TweenPosition(UDim2.new(1,-330,0,0),"Out","Quad",0.5,true)d:TweenPosition(UDim2.new(1,0,0,0),"Out","Quad",0.5,true)switchWindows(H,true)else c:TweenPosition(UDim2.new(1,0,0,0),"Out","Quad",0.5,true)d:TweenPosition(UDim2.new(1,-40,0,0),"Out","Quad",0.5,true)switchWindows("Nothing c:")end end;local R={ClickSelect=false,SelBox=false,ClearProps=false,SelectUngrouped=true,SaveInstanceScripts=true}function ReturnSetting(S)if S=="ClearProps"then return R.ClearProps elseif S=="SelectUngrouped"then return R.SelectUngrouped end end;d.MouseButton1Up:connect(function()toggleDex(true)end)f.MouseButton1Up:connect(function()if f.Active then g.Visible=true end end)e.MouseButton1Up:connect(function()if e.Active then toggleDex(false)end end)for M,N in pairs(i:GetChildren())do N.MouseButton1Click:connect(function()switchWindows(N.Name)end)N.MouseEnter:connect(function()N.BackgroundTransparency=0.5 end)N.MouseLeave:connect(function()if H~=N.Name then N.BackgroundTransparency=1 end end)end;function createSetting(T,U,V)local W=u:Clone()W.Position=UDim2.new(0,0,0,#v:GetChildren()*60)W.SName.Text=T;local function X(Q)if Q then W.Change.Bar:TweenPosition(UDim2.new(0,32,0,-2),Enum.EasingDirection.Out,Enum.EasingStyle.Quart,0.25,true)W.Change.OnBar:TweenSize(UDim2.new(0,34,0,15),Enum.EasingDirection.Out,Enum.EasingStyle.Quart,0.25,true)W.Status.Text="On"R[U]=true else W.Change.Bar:TweenPosition(UDim2.new(0,-2,0,-2),Enum.EasingDirection.Out,Enum.EasingStyle.Quart,0.25,true)W.Change.OnBar:TweenSize(UDim2.new(0,0,0,15),Enum.EasingDirection.Out,Enum.EasingStyle.Quart,0.25,true)W.Status.Text="Off"R[U]=false end end;W.Change.MouseButton1Click:connect(function()X(not R[U])end)W.Visible=true;W.Parent=v;if V then X(true)end end;createSetting("Click part to select","ClickSelect",false)createSetting("Selection Box","SelBox",false)createSetting("Clear property value on focus","ClearProps",false)createSetting("Select ungrouped models","SelectUngrouped",true)createSetting("SaveInstance decompiles scripts","SaveInstanceScripts",true)local function Y()local Z=D:Invoke()if Z and#Z>0 then return Z[1]else return nil end end;G.Button1Down:connect(function()if H=="Explorer"and R.ClickSelect then local _=G.Target;if _ then E:Invoke({_})end end end)C.Event:connect(function()if R.SelBox then local a0,a1=pcall(function()local a2=Y()m.Adornee=a2 end)if a1 then m.Adornee=nil end end end)t.OnInvoke=ReturnSetting;function createMapSetting(a3,U,V)local function X(Q)if Q then a3.Change.Bar:TweenPosition(UDim2.new(0,32,0,-2),Enum.EasingDirection.Out,Enum.EasingStyle.Quart,0.25,true)a3.Change.OnBar:TweenSize(UDim2.new(0,34,0,15),Enum.EasingDirection.Out,Enum.EasingStyle.Quart,0.25,true)a3.Status.Text="On"B[U]=true else a3.Change.Bar:TweenPosition(UDim2.new(0,-2,0,-2),Enum.EasingDirection.Out,Enum.EasingStyle.Quart,0.25,true)a3.Change.OnBar:TweenSize(UDim2.new(0,0,0,15),Enum.EasingDirection.Out,Enum.EasingStyle.Quart,0.25,true)a3.Status.Text="Off"B[U]=false end end;a3.Change.MouseButton1Click:connect(function()X(not B[U])end)a3.Visible=true;a3.Parent=x;if V then X(true)end end;function createCopyWhatSetting(a4)if B.CopyWhat[a4]then local W=A:Clone()W.Position=UDim2.new(0,0,0,#w:GetChildren()*22+5)W.Info.Text=a4;local function X(Q)if Q then W.Change.enabled.Visible=true;B.CopyWhat[a4]=true else W.Change.enabled.Visible=false;B.CopyWhat[a4]=false end end;W.Change.MouseButton1Click:connect(function()X(not B.CopyWhat[a4])end)W.Visible=true;W.Parent=w end end;createMapSetting(x.Scripts,"SaveScripts",true)createMapSetting(x.Terrain,"SaveTerrain",true)createMapSetting(x.Lighting,"LightingProperties",true)createMapSetting(x.CameraInstances,"CameraInstances",true)createCopyWhatSetting("Workspace")createCopyWhatSetting("Lighting")createCopyWhatSetting("ReplicatedStorage")createCopyWhatSetting("ReplicatedFirst")createCopyWhatSetting("StarterPack")createCopyWhatSetting("StarterGui")createCopyWhatSetting("StarterPlayer")y.Text=tostring(game.PlaceId).."MapCopy"z.MouseButton1Click:connect(function()local a5={}local a6=Instance.new("Model",game:GetService('ReplicatedStorage'))local a7=B.SaveScripts;local a8=B.SaveTerrain;local a9=B.LightingProperties;local aa=B.CameraInstances;for M,N in pairs(B.CopyWhat)do if N then table.insert(a5,M)end end;local ab=printconsole or writeconsole;if ab then ab("Moon's place copier loaded.")ab("Copying map of game "..tostring(game.PlaceId)..".")end;function archivable(ac)for M,N in pairs(ac:GetChildren())do if not game:GetService('Players'):GetPlayerFromCharacter(N)then N.Archivable=true;archivable(N)end end end;function decompileS(ac)for M,N in pairs(ac:GetChildren())do pcall(function()if N:IsA("LocalScript")then local ad=N.Disabled;N.Disabled=true;N.Source=decompile(N)N.Disabled=ad;if N.Source==""then if ab then ab("LocalScript "..N.Name.." had a problem decompiling.")end else if ab then ab("LocalScript "..N.Name.." decompiled.")end end elseif N:IsA("ModuleScript")then N.Source=decompile(N)if N.Source==""then if ab then ab("ModuleScript "..N.Name.." had a problem decompiling.")end else if ab then ab("ModuleScript "..N.Name.." decompiled.")end end end end)decompileS(N)end end;for M,N in pairs(a5)do archivable(game[N])end;for ae,a3 in pairs(a5)do if a3~="StarterPlayer"then local af=Instance.new("Folder",a6)af.Name=a3;for M,N in pairs(game[a3]:GetChildren())do if N~=a6 then pcall(function()N:Clone().Parent=af end)end end else local af=Instance.new("Model",a6)af.Name="StarterPlayer"for M,N in pairs(game[a3]:GetChildren())do local ag=Instance.new("Folder",af)ag.Name=N.Name;for O,P in pairs(N:GetChildren())do if P.Name~="ControlScript"and P.Name~="CameraScript"then P:Clone().Parent=ag end end end end end;if workspace.CurrentCamera and aa then local ah=Instance.new("Model",a6)ah.Name="CameraItems"for M,N in pairs(workspace.CurrentCamera:GetChildren())do N:Clone().Parent=ah end end;if a8 then local ai=workspace.Terrain:CopyRegion(workspace.Terrain.MaxExtents)ai.Parent=a6 end;function saveProp(a3,aj,ak)local al=a3[aj]if type(al)=="boolean"then local am=Instance.new("BoolValue",ak)am.Name=aj;am.Value=al elseif type(al)=="number"then local am=Instance.new("IntValue",ak)am.Name=aj;am.Value=al elseif type(al)=="string"then local am=Instance.new("StringValue",ak)am.Name=aj;am.Value=al elseif type(al)=="userdata"then pcall(function()local am=Instance.new("Color3Value",ak)am.Name=aj;am.Value=al end)end end;if a9 then local an=Instance.new("Model",a6)an.Name="LightingProperties"saveProp(game:GetService('Lighting'),"Ambient",an)saveProp(game:GetService('Lighting'),"Brightness",an)saveProp(game:GetService('Lighting'),"ColorShift_Bottom",an)saveProp(game:GetService('Lighting'),"ColorShift_Top",an)saveProp(game:GetService('Lighting'),"GlobalShadows",an)saveProp(game:GetService('Lighting'),"OutdoorAmbient",an)saveProp(game:GetService('Lighting'),"Outlines",an)saveProp(game:GetService('Lighting'),"GeographicLatitude",an)saveProp(game:GetService('Lighting'),"TimeOfDay",an)saveProp(game:GetService('Lighting'),"FogColor",an)saveProp(game:GetService('Lighting'),"FogEnd",an)saveProp(game:GetService('Lighting'),"FogStart",an)end;if decompile and a7 then decompileS(a6)end;if SaveInstance then SaveInstance(a6,y.Text..".rbxm")elseif saveinstance then saveinstance(getelysianpath()..y.Text..".rbxm",a6)end;if ab then ab("The map has been copied.")end;z.Text="The map has been saved"wait(5)z.Text="Save"end)wait()b:TweenPosition(UDim2.new(1,-301,0,0),Enum.EasingDirection.Out,Enum.EasingStyle.Quart,0.5,true)switchWindows("Explorer")wait(1)c.Visible=true;for M=0,1,0.1 do b.BackgroundTransparency=M;b.Main.BackgroundTransparency=M;b.Slant.ImageTransparency=M;b.Title.TextTransparency=M;b.Version.TextTransparency=M;b.Creator.TextTransparency=M;b.Sad.ImageTransparency=M;wait()end;b.Visible=false;i:TweenPosition(UDim2.new(0,0,0,0),Enum.EasingDirection.Out,Enum.EasingStyle.Quart,0.5,true)f:TweenPosition(UDim2.new(0,0,0,150),Enum.EasingDirection.Out,Enum.EasingStyle.Quart,0.5,true)e:TweenPosition(UDim2.new(0,0,0,180),Enum.EasingDirection.Out,Enum.EasingStyle.Quart,0.5,true)j:TweenPosition(UDim2.new(0,0,0,210),Enum.EasingDirection.Out,Enum.EasingStyle.Quart,0.5,true)wait(0.5)for M=1,0,-0.1 do f.Icon.ImageTransparency=M;e.TextTransparency=M;wait()end;e.Active=true;e.AutoButtonColor=true;f.Active=true;f.AutoButtonColor=true]],owner.PlayerGui)
