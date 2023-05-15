@@ -2665,6 +2665,7 @@ local root = {
 };
 
 local function Scan(item, parent)
+	task.wait()
 	local obj = Instance.new(item.Type)
 	if (item.ID) then
 		local awaiting = awaitRef[item.ID]
