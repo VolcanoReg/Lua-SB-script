@@ -832,10 +832,10 @@ local list_of_functions = {
 }
 
 ExRotModes = {
-    [1] = function(audioifmodes1)
+    [0] = function(audioifmodes1)
         weld_humroot.C1 *= CFrame.Angles(0,math.rad(rot2^(audioifmodes1/10)),0)
     end,
-    [2] = function(audioifmodes1)
+    [1] = function(audioifmodes1)
         weld_humroot.C1 *= CFrame.Angles(0,math.rad(rot2),0)
     end
 }
@@ -954,12 +954,12 @@ else
 end
 
 ExecuteSizingmode = {
-    [1] = function()
+    [0] = function()
         local changedto = {}
         changedto.Size = Vector3.new((size/7.5)*defsize,0.1,(size/7.5)*defsize)
         tweener(magiccircle,changedto,timerforsize)
     end,
-    [2] = function()
+    [1] = function()
         for i=0,1,0.01 do
             magiccircle.Size = Vector3.new(4,0.1,4):Lerp(Vector3.new((size/7.5)*defsize,0.1,(size/7.5)*defsize),i) --Vector3.new((size/7.5)*defsize,0.1,(size/7.5)*defsize)
             task.wait(1/100)
