@@ -954,12 +954,12 @@ else
 end
 
 ExecuteSizingmode = {
-    [0] = function()
+    [0] = function(size,defsize,magiccircle,timerforsize)
         local changedto = {}
         changedto.Size = Vector3.new((size/7.5)*defsize,0.1,(size/7.5)*defsize)
         tweener(magiccircle,changedto,timerforsize)
     end,
-    [1] = function()
+    [1] = function(size,defsize,magiccircle,timerforsize)
         for i=0,1,0.01 do
             magiccircle.Size = Vector3.new(4,0.1,4):Lerp(Vector3.new((size/7.5)*defsize,0.1,(size/7.5)*defsize),i) --Vector3.new((size/7.5)*defsize,0.1,(size/7.5)*defsize)
             task.wait(1/100)
@@ -984,7 +984,7 @@ Size.OnServerEvent:Connect(function(_,size)
     --        task.wait(1/100)
     --    end
     --end
-    ExecuteSizingmode[sizingmode]()
+    ExecuteSizingmode[sizingmode](size,defsize,magiccircle,timerforsize)
 end)
 
 magiccircle.Touched:Connect(function(touched)
