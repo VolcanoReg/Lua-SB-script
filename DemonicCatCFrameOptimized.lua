@@ -639,7 +639,7 @@ end
 coroutine.wrap(function()
     while true do
         Humanoid.Died:Wait()
-        FASTLIB.fdefer(OnHumDied)
+        FASTLIB.fspawn(OnHumDied)
     end
 end)()
 
@@ -831,12 +831,21 @@ local list_of_functions = {
 
 }
 
-function weldhumrootpart(audioifmodes1)
-    if modes == 1 then
+ExRotModes = {
+    [1] = function(audioifmodes1)
         weld_humroot.C1 *= CFrame.Angles(0,math.rad(rot2^(audioifmodes1/10)),0)
-    elseif modes == 0 then
+    end,
+    [2] = function(audioifmodes1)
         weld_humroot.C1 *= CFrame.Angles(0,math.rad(rot2),0)
     end
+}
+function weldhumrootpart(audioifmodes1)
+    --if modes == 1 then
+    --    weld_humroot.C1 *= CFrame.Angles(0,math.rad(rot2^(audioifmodes1/10)),0)
+    --elseif modes == 0 then
+    --    weld_humroot.C1 *= CFrame.Angles(0,math.rad(rot2),0)
+    --end
+    ExRotModes[modes](audioifmodes1)
 end
 
 if player:FindFirstChild("CommandBasedAction") == nil then
@@ -944,23 +953,38 @@ else
 	Size = player.PlayerGui:WaitForChild("Size",1)
 end
 
-Size.OnServerEvent:Connect(function(_,size)
-    if size <= 1 then
-        size = 1
-    end
-    --magiccircle.Size = Vector3.new(size,0.1,size)
-    audioifmodes1 = size
-    if sizingmode == 0 then
+ExecuteSizingmode = {
+    [1] = function()
         local changedto = {}
         changedto.Size = Vector3.new((size/7.5)*defsize,0.1,(size/7.5)*defsize)
         tweener(magiccircle,changedto,timerforsize)
-    elseif sizingmode == 1 then
-        --local s = game:GetService("RunService").Heartbeat:Wait()
+    end,
+    [2] = function()
         for i=0,1,0.01 do
             magiccircle.Size = Vector3.new(4,0.1,4):Lerp(Vector3.new((size/7.5)*defsize,0.1,(size/7.5)*defsize),i) --Vector3.new((size/7.5)*defsize,0.1,(size/7.5)*defsize)
             task.wait(1/100)
         end
     end
+}
+
+Size.OnServerEvent:Connect(function(_,size)
+    if size <= 1 then
+        size = 1
+    end
+    --magiccircle.Size = Vector3.new(size,0.1,size)
+    --audioifmodes1 = size
+    --if sizingmode == 0 then
+    --    local changedto = {}
+    --    changedto.Size = Vector3.new((size/7.5)*defsize,0.1,(size/7.5)*defsize)
+    --    tweener(magiccircle,changedto,timerforsize)
+    --elseif sizingmode == 1 then
+    --    --local s = game:GetService("RunService").Heartbeat:Wait()
+    --    for i=0,1,0.01 do
+    --        magiccircle.Size = Vector3.new(4,0.1,4):Lerp(Vector3.new((size/7.5)*defsize,0.1,(size/7.5)*defsize),i) --Vector3.new((size/7.5)*defsize,0.1,(size/7.5)*defsize)
+    --        task.wait(1/100)
+    --    end
+    --end
+    ExecuteSizingmode[sizingmode]()
 end)
 
 magiccircle.Touched:Connect(function(touched)
