@@ -984,7 +984,7 @@ Size.OnServerEvent:Connect(function(_,size)
     --        task.wait(1/100)
     --    end
     --end
-    ExecuteSizingmode[sizingmode](size,defsize,magiccircle,timerforsize)
+    ExecuteSizingmode[sizingmode](size,defsize)
 end)
 
 magiccircle.Touched:Connect(function(touched)
