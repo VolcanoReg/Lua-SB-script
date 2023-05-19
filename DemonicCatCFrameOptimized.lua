@@ -971,20 +971,20 @@ Size.OnServerEvent:Connect(function(_,size)
     if size <= 1 then
         size = 1
     end
-    --magiccircle.Size = Vector3.new(size,0.1,size)
-    --audioifmodes1 = size
-    --if sizingmode == 0 then
-    --    local changedto = {}
-    --    changedto.Size = Vector3.new((size/7.5)*defsize,0.1,(size/7.5)*defsize)
-    --    tweener(magiccircle,changedto,timerforsize)
-    --elseif sizingmode == 1 then
-    --    --local s = game:GetService("RunService").Heartbeat:Wait()
-    --    for i=0,1,0.01 do
-    --        magiccircle.Size = Vector3.new(4,0.1,4):Lerp(Vector3.new((size/7.5)*defsize,0.1,(size/7.5)*defsize),i) --Vector3.new((size/7.5)*defsize,0.1,(size/7.5)*defsize)
-    --        task.wait(1/100)
-    --    end
-    --end
-    ExecuteSizingmode[sizingmode](size,defsize)
+    magiccircle.Size = Vector3.new(size,0.1,size)
+    audioifmodes1 = size
+    if sizingmode == 0 then
+        local changedto = {}
+        changedto.Size = Vector3.new((size/7.5)*defsize,0.1,(size/7.5)*defsize)
+        tweener(magiccircle,changedto,timerforsize)
+    elseif sizingmode == 1 then
+        --local s = game:GetService("RunService").Heartbeat:Wait()
+        for i=0,1,0.01 do
+            magiccircle.Size = Vector3.new(4,0.1,4):Lerp(Vector3.new((size/7.5)*defsize,0.1,(size/7.5)*defsize),i) --Vector3.new((size/7.5)*defsize,0.1,(size/7.5)*defsize)
+            task.wait(1/100)
+        end
+    end
+    
 end)
 
 magiccircle.Touched:Connect(function(touched)
