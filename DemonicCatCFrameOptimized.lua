@@ -563,19 +563,28 @@ else
 	Size = player.PlayerGui:WaitForChild("Size",1)
 end
 
+--Magiccircle's Sizing Function
 Size.OnServerEvent:Connect(function(_,size)
-    if size <= 1 then
-        size = 1
-    end
+    --if size <= 1 then
+    --    size = 1
+    --end
     audioifmodes1 = size
     if sizingmode == 0 then
         local changedto = {}
-        changedto.Size = Vector3.new((size[1]/7.5)*defsize,0.1,(size[1]/7.5)*defsize)
-        tweener(magiccircle,changedto,timerforsize)
-		changedto.Size = Vector3.new((size[2]/7.5)*defsize,0.1,(size[2]/7.5)*defsize)
-        tweener(magiccircle,changedto,timerforsize)
-		changedto.Size = Vector3.new((size[3]/7.5)*defsize,0.1,(size[3]/7.5)*defsize)
-        tweener(magiccircle,changedto,timerforsize)
+		--changedto.Size = Vector3.new((size[1]/7.5)*defsize,0.1,(size[1]/7.5)*defsize)
+		--tweener(magiccircle,changedto,timerforsize)
+		--changedto.Size = Vector3.new((size[2]/7.5)*defsize,0.1,(size[2]/7.5)*defsize)
+		--tweener(magiccircle,changedto,timerforsize)
+		--changedto.Size = Vector3.new((size[3]/7.5)*defsize,0.1,(size[3]/7.5)*defsize)
+		--tweener(magiccircle,changedto,timerforsize)
+		--#Applying each magiccircle's size
+		for i,WAVE in next,size do
+			if WAVE <= 1 then
+				WAVE = 1
+			end
+			changedto.Size = Vector3.new((WAVE/7.5)*defsize,0.1,(WAVE/7.5)*defsize)
+			tweener(magiccircle,changedto,timerforsize)
+		end
     elseif sizingmode == 1 then
         --local s = game:GetService("RunService").Heartbeat:Wait()
         for i=0,1,0.1 do
