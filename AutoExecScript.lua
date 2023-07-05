@@ -1,8 +1,9 @@
 local Scripts = {
-	{"https://raw.githubusercontent.com/VolcanoReg/Lua-SB-script/main/DemonicCatCFrameOptimized.lua","DemCatVis"}
+	{"https://raw.githubusercontent.com/VolcanoReg/Lua-SB-script/main/DemonicCatCFrameOptimized.lua","DemCatVis"},
+	{"https://raw.githubusercontent.com/VolcanoReg/Lua-SB-script/main/Nuke_Gun.lua","Nuke_Gun"},
 }
 local Running = {}
-local TIMER = 10
+local TIMER = 15
 local Http = game:GetService("HttpService")
 script.Parent = owner
 
@@ -18,22 +19,22 @@ CommandAction.Parent = owner
 
 --NLS
 Client = function()
-NLS(
-[[
-local remote = owner:WaitForChild("CommandBasedAction")
-print(remote)
-local chat = game:GetService("Chat")
-prefix = "&"
-chat.Chatted:Connect(function(part,msg,color)
-    if part.Name == game.Players.LocalPlayer.Name and string.sub(msg,1,1) == prefix then
-        remote:FireServer(string.sub(msg,2))
-    end
-end)
-remote.OnClientEvent:Connect(function(msg)
-	print(msg)
-	chat:Chat(owner.Character,msg)
-end)
-]])
+	NLS(
+	[[
+	local remote = owner:WaitForChild("CommandBasedAction")
+	print(remote)
+	local chat = game:GetService("Chat")
+	prefix = "&"
+	chat.Chatted:Connect(function(part,msg,color)
+		if part.Name == game.Players.LocalPlayer.Name and string.sub(msg,1,1) == prefix then
+			remote:FireServer(string.sub(msg,2))
+		end
+	end)
+	remote.OnClientEvent:Connect(function(msg)
+		print(msg)
+		chat:Chat(owner.Character,msg)
+	end)
+	]])
 end
 Client()
 --Http function used to get the script
@@ -57,7 +58,7 @@ functions_list = {
 				print("Auto Executing "..scripta[2])
 				noerror,codes = ScriptHttpChecker(scripta[1],true)
 				if noerror == false then
-					CommandAction:FireAllClients("No Running Scripts")
+					CommandAction:FireAllClients("Error getting script")
 					print("Error getting script")
 				else
 					table.insert(Running,{scripta[2],NS(codes),codes})
@@ -67,6 +68,16 @@ functions_list = {
 	end},
 	{"StopAll",function()
 		--Stop Function
+		for i,scripta in next,Running do
+			CommandAction:FireAllClients("Stopping Script: "..scripta[1])
+			print("Stopping Script: "..scripta[1])
+			scripta[2]:Destroy()
+			task.wait(1/10)
+		end
+		Running = {}
+		CommandAction:FireAllClients("Script Stopped")
+		owner:LoadCharacter()
+		print("Script Stopped")
 	end
 	},
 }
@@ -77,6 +88,11 @@ CommandAction.OnServerEvent:Connect(function(_,msg)
 			commands[2](msg[2])
 		end
 	end
+end)
+
+--Put localscript on newly added character or respawned Character
+owner.CharacterAdded:Connect(function(Char)
+	Client()
 end)
 
 --The Scripts Autochecker and Autoexecutor
@@ -91,7 +107,7 @@ while true do
 				if scripta[1] == code[2] then
 					noerror,newcode = ScriptHttpChecker(code[1],true)
 					if noerror == false then
-						CommandAction:FireAllClients("No Running Scripts")
+						CommandAction:FireAllClients("Error getting script")
 						print("Error getting script")
 					end
 				else
@@ -101,7 +117,6 @@ while true do
 				print("New Code Detected")
 				CommandAction:FireAllClients("New Code Detected")
 				owner:LoadCharacter()
-				Client()
 				scripta[2]:Destroy() --destroy old NS
 				scripta[2] = NS(newcode) --replace with the new ones
 				scripta[3] = newcode -- replace old code with new code
