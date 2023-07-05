@@ -120,7 +120,7 @@ magiccircle2.Transparency = 1
 magiccircle2.CanCollide = false
 magiccircle2.Massless = true
 magiccircle2.Size = Vector3.new(7.5,0.1,7.5)
-magiccircle2.CFrame = humanoidrotpart.CFrame - Vector3.new(0,-3,0)
+magiccircle2.CFrame = humanoidrotpart.CFrame - Vector3.new(0,-2,0)
 magiccircle2.Parent = humanoidrotpart
 print("Magic Circle 2 Block Ready")
 local magiccircle3 = Instance.new("Part")
@@ -129,7 +129,7 @@ magiccircle3.Transparency = 1
 magiccircle3.CanCollide = false
 magiccircle3.Massless = true
 magiccircle3.Size = Vector3.new(9.5,0.1,9.5)
-magiccircle3.CFrame = humanoidrotpart.CFrame - Vector3.new(0,-3,0)
+magiccircle3.CFrame = humanoidrotpart.CFrame - Vector3.new(0,-1,0)
 magiccircle3.Parent = humanoidrotpart
 print("Magic Circle 3 Block Ready")
 
