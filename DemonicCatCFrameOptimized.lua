@@ -195,6 +195,7 @@ weld_humroot3.Part1 = magiccircle3
 weld_humroot3.C1	= CFrame.new(0,3,0)
 print("Weld 3 Ready")
 
+SoundWAVE = {}
 local noerr,msg = pcall(function()
     audio = Instance.new("Sound")
     audio.Name = "DemonicCat"
@@ -204,6 +205,22 @@ local noerr,msg = pcall(function()
     audio.SoundId = "rbxassetid://13225105131"
     audio.Parent = humanoidrotpart
     audio:Play()
+	for n=1,3 do
+	i = Instance.new("Sound")
+	i.Name = "WAVE"..n
+	i.Volume = 0
+	i.Looped = audio.Looped
+	i.SoundId = audio.SoundId
+	i.Parent = audio.Parent
+	table.insert(SoundWAVE,i)
+	i:Play()
+	--EQ = Instance.new("EqualizerSoundEffect")
+    --EQ.Enabled = true
+    --EQ.LowGain = if n == 1 then 3 else 0
+    --EQ.MidGain = if n == 2 then 3 else 0
+    --EQ.HighGain = if n == 3 then 3 else 0
+    --EQ.Parent = i
+end
 end)
 print(noerr,msg)
 if noerr == false then
@@ -214,23 +231,8 @@ if noerr == false then
     --Upload by EW
     audio.Parent = humanoidrotpart
 end
-SoundWAVE = {}
-for n=1,3 do
-	i = Instance.new("Sound")
-	i.Name = "WAVE"..n
-	i.Volume = 0
-	i.Looped = audio.Looped
-	i.SoundId = audio.SoundId
-	i.Parent = audio.Parent
-	table.insert(SoundWAVE,i)
-	i:Play()
-	EQ = Instance.new("EqualizerSoundEffect")
-    EQ.Enabled = true
-    EQ.LowGain = if n == 1 then 3 else 0
-    EQ.MidGain = if n == 2 then 3 else 0
-    EQ.HighGain = if n == 3 then 3 else 0
-    EQ.Parent = i
-end
+
+
 
 print("Audio Ready")
 wait()
@@ -572,13 +574,10 @@ local audio = owner.Character.HumanoidRootPart:WaitForChild("WAVE1")
 local audio2 = owner.Character.HumanoidRootPart:WaitForChild("WAVE2")
 local audio3 = owner.Character.HumanoidRootPart:WaitForChild("WAVE3")
 HB=game:GetService("RunService").RenderStepped;swait=function()HB:Wait();end;
-remote2.OnClientEvent:Connect(function(msg)
-    pcall(function() audio = msg end)
-end)
 while true do
     remote2:FireServer({audio.PlaybackLoudness,audio2.PlaybackLoudness,audio3.PlaybackLoudness})
-    --swait()
-    task.wait(1/120)
+    swait()
+    --task.wait(1/120)
 end
 ]])
 
@@ -592,18 +591,9 @@ end
 
 --Magiccircle's Sizing Function
 Size.OnServerEvent:Connect(function(_,size)
-    --if size <= 1 then
-    --    size = 1
-    --end
     audioifmodes1 = size
     if sizingmode == 0 then
         local changedto = {}
-		--changedto.Size = Vector3.new((size[1]/7.5)*defsize,0.1,(size[1]/7.5)*defsize)
-		--tweener(magiccircle,changedto,timerforsize)
-		--changedto.Size = Vector3.new((size[2]/7.5)*defsize,0.1,(size[2]/7.5)*defsize)
-		--tweener(magiccircle,changedto,timerforsize)
-		--changedto.Size = Vector3.new((size[3]/7.5)*defsize,0.1,(size[3]/7.5)*defsize)
-		--tweener(magiccircle,changedto,timerforsize)
 		--#Applying each magiccircle's size
 		for i,WAVE in next,size do
 			if WAVE <= 1 then
@@ -619,7 +609,6 @@ Size.OnServerEvent:Connect(function(_,size)
             task.wait(0.01)
         end
     end
-    
 end)
 
 magiccircle.Touched:Connect(function(touched)
