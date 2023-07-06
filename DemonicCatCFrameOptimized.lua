@@ -609,7 +609,7 @@ Size.OnServerEvent:Connect(function(_,size)
 			if WAVE <= 1 then
 				WAVE = 1
 			end
-			changedto.Size = Vector3.new((WAVE/7.5)*defsize,0.1,(WAVE/7.5)*defsize)
+			changedto.Size = Vector3.new((WAVE*i/7.5)*defsize,0.1,(WAVE*i/7.5)*defsize)
 			tweener(magiccircletable[i],changedto,timerforsize)
 		end
     elseif sizingmode == 1 then
