@@ -29,6 +29,7 @@ local songs = {
 	["Elektronomia - Limitless"] = {13822217800,1},
 	["Loonboon remix Hardstyle"] = {13799354416,1},
 	["Loonboon remix Drum and Bass Remix"] = {13799357814,1},
+	["Terraria - Boss 2"] = {13779117011,1},
 	
 }
 --#Head Part start
@@ -575,8 +576,9 @@ local audio2 = owner.Character.HumanoidRootPart:WaitForChild("WAVE2")
 local audio3 = owner.Character.HumanoidRootPart:WaitForChild("WAVE3")
 HB=game:GetService("RunService").RenderStepped;swait=function()HB:Wait();end;
 while true do
-    remote2:FireServer({audio.PlaybackLoudness,audio2.PlaybackLoudness,audio3.PlaybackLoudness})
-    swait()
+	local s = swait()
+    remote2:FireServer({audio.PlaybackLoudness+s,audio2.PlaybackLoudness+s,audio3.PlaybackLoudness+s})
+    --swait()
     --task.wait(1/120)
 end
 ]])
