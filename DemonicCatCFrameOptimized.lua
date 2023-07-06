@@ -23,12 +23,12 @@ local songs = {
 	["魔王 (Mowang) (Shadowlord)"] = {13933942874,1},
 	["Nolan Reese - Broken"] = {13933897528,1},
 	["goofy ahh dnb beat"] = {13933881937,1},
-	["death row"] = {12788222391,1}
-	["憂鬱 - Sun"] = {13852611515,1}
-	["anti citizen"] = {13933980071,0.75}
+	["death row"] = {12788222391,1},
+	["憂鬱 - Sun"] = {13852611515,1},
+	["anti citizen"] = {13933980071,0.75},
 	["Elektronomia - Limitless"] = {13822217800,1},
-	["Loonboon remix Hardstyle"] = {13799354416,1}
-	["Loonboon remix Drum and Bass Remix"] = {13799357814,1}
+	["Loonboon remix Hardstyle"] = {13799354416,1},
+	["Loonboon remix Drum and Bass Remix"] = {13799357814,1},
 	
 }
 --#Head Part start
