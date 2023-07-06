@@ -19,7 +19,17 @@ local songs = {
     ["Bad Apple"] = {13107234233,0.67},
     ["YOASOBI - Idol"] = {13260765767,1},
     ["Camellia - GHOST"] = {13260768688,1},
-    ["Kevin MacLeod - Local Forecast"] = {13413645483,1}
+    ["Kevin MacLeod - Local Forecast"] = {13413645483,1},
+	["魔王 (Mowang) (Shadowlord)"] = {13933942874,1},
+	["Nolan Reese - Broken"] = {13933897528,1},
+	["goofy ahh dnb beat"] = {13933881937,1},
+	["death row"] = {12788222391,1}
+	["憂鬱 - Sun"] = {13852611515,1}
+	["anti citizen"] = {13933980071,0.75}
+	["Elektronomia - Limitless"] = {13822217800,1},
+	["Loonboon remix Hardstyle"] = {13799354416,1}
+	["Loonboon remix Drum and Bass Remix"] = {13799357814,1}
+	
 }
 --#Head Part start
 local ins1 = Instance.new("Part")
@@ -138,6 +148,20 @@ dec.Face = "Top"
 dec.Name = "Magic"
 dec.Texture = "rbxassetid://8058971884"
 dec.Parent = magiccircle
+print("Magic Ready")
+local dec2 = Instance.new("Decal")
+dec2.Face = "Top"
+dec2.Name = "Magic"
+dec2.Texture = "rbxassetid://8058971884"
+dec2.Color3 = Color3.fromRGB(128,128,128)
+dec2.Parent = magiccircle2
+print("Magic Ready")
+local dec3 = Instance.new("Decal")
+dec3.Face = "Top"
+dec3.Name = "Magic"
+dec3.Texture = "rbxassetid://8058971884"
+dec3.Color3 = Color3.fromRGB(64,64,64)
+dec3.Parent = magiccircle3
 print("Magic Ready")
 
 local weld_humroot = Instance.new("Weld")
