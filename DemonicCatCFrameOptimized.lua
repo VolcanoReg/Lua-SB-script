@@ -114,7 +114,7 @@ print("Initiating Demonic Little Grey Cat Head Part Done")
 	HumanoidRootPart Part Start
 ]]
 print("Initiating Demonic Little Grey Cat HumanoidRootPart part...")
-
+magiccircletable = {}
 local magiccircle = Instance.new("Part")
 magiccircle.Name = "MagicCircle"
 magiccircle.Transparency = 1
@@ -123,6 +123,7 @@ magiccircle.Massless = true
 magiccircle.Size = Vector3.new(5.5,0.1,5.5)
 magiccircle.CFrame = humanoidrotpart.CFrame - Vector3.new(0,-3,0)
 magiccircle.Parent = humanoidrotpart
+table.insert(magiccircletable,magiccircle)
 print("Magic Circle 1 Block Ready")
 local magiccircle2 = Instance.new("Part")
 magiccircle2.Name = "MagicCircle"
@@ -132,6 +133,7 @@ magiccircle2.Massless = true
 magiccircle2.Size = Vector3.new(7.5,0.1,7.5)
 magiccircle2.CFrame = humanoidrotpart.CFrame - Vector3.new(0,-2,0)
 magiccircle2.Parent = humanoidrotpart
+table.insert(magiccircletable,magiccircle2)
 print("Magic Circle 2 Block Ready")
 local magiccircle3 = Instance.new("Part")
 magiccircle3.Name = "MagicCircle"
@@ -141,6 +143,7 @@ magiccircle3.Massless = true
 magiccircle3.Size = Vector3.new(9.5,0.1,9.5)
 magiccircle3.CFrame = humanoidrotpart.CFrame - Vector3.new(0,-1,0)
 magiccircle3.Parent = humanoidrotpart
+table.insert(magiccircletable,magiccircle3)
 print("Magic Circle 3 Block Ready")
 
 local dec = Instance.new("Decal")
@@ -607,7 +610,7 @@ Size.OnServerEvent:Connect(function(_,size)
 				WAVE = 1
 			end
 			changedto.Size = Vector3.new((WAVE/7.5)*defsize,0.1,(WAVE/7.5)*defsize)
-			tweener(magiccircle,changedto,timerforsize)
+			tweener(magiccircletable[i],changedto,timerforsize)
 		end
     elseif sizingmode == 1 then
         --local s = game:GetService("RunService").Heartbeat:Wait()
