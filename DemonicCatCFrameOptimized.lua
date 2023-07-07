@@ -573,7 +573,7 @@ local remote2 = owner.PlayerGui:WaitForChild("Size")
 local audio = owner.Character.HumanoidRootPart:WaitForChild("WAVE1")
 local audio2 = owner.Character.HumanoidRootPart:WaitForChild("WAVE2")
 local audio3 = owner.Character.HumanoidRootPart:WaitForChild("WAVE3")
-HB=game:GetService("RunService").RenderStepped;swait=function()HB:Wait();end;
+HB=game:GetService("RunService").RenderStepped;swait=function() return HB:Wait();end;
 while true do
 	local s = swait()
     remote2:FireServer({audio.PlaybackLoudness+s,audio2.PlaybackLoudness+s,audio3.PlaybackLoudness+s})
