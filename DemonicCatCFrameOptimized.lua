@@ -30,8 +30,8 @@ local songs = {
 	["Loonboon remix Hardstyle"] = {13799354416,1},
 	["Loonboon remix Drum and Bass Remix"] = {13799357814,1},
 	["Terraria - Boss 2"] = {13779117011,1},
-	["Call of Duty Black Ops 2 - Savimbi's Pride"] = {13692208649,1}
-	["Cats"] = {13713208454,1}
+	["Call of Duty Black Ops 2 - Savimbi's Pride"] = {13692208649,1},
+	["Cats"] = {13713208454,1},
 }
 --#Head Part start
 local ins1 = Instance.new("Part")
