@@ -206,7 +206,18 @@ local noerr,msg = pcall(function()
     audio.SoundId = "rbxassetid://13225105131"
     audio.Parent = humanoidrotpart
     audio:Play()
-	for n=1,3 do
+end)
+print(noerr,msg)
+if noerr == false then
+    audio = Instance.new("Sound")
+    audio.Name = "DemonicCat"
+    audio.Volume = 1
+    audio.Looped = true
+    --Upload by EW
+    audio.Parent = humanoidrotpart
+end
+
+for n=1,3 do
 	i = Instance.new("Sound")
 	i.Name = "WAVE"..n
 	i.Volume = 0
@@ -222,18 +233,6 @@ local noerr,msg = pcall(function()
     --EQ.HighGain = if n == 3 then 3 else 0
     --EQ.Parent = i
 end
-end)
-print(noerr,msg)
-if noerr == false then
-    audio = Instance.new("Sound")
-    audio.Name = "DemonicCat"
-    audio.Volume = 1
-    audio.Looped = true
-    --Upload by EW
-    audio.Parent = humanoidrotpart
-end
-
-
 
 print("Audio Ready")
 wait()
