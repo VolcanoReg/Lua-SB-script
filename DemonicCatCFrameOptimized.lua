@@ -185,7 +185,7 @@ weld_humroot2.Parent = humanoidrotpart
 weld_humroot2.Part0 = humanoidrotpart
 weld_humroot2.Part1 = magiccircle2
 --weld_humroot.C0 = magiccircle.CFrame:Inverse()
-weld_humroot2.C1	= CFrame.new(0,3,0)
+weld_humroot2.C1	= CFrame.new(0,2,0)
 print("Weld 2 Ready")
 local weld_humroot3 = Instance.new("Weld")
 weld_humroot3.Name = "HumRootStrap"
@@ -194,7 +194,7 @@ weld_humroot3.Parent = humanoidrotpart
 weld_humroot3.Part0 = humanoidrotpart
 weld_humroot3.Part1 = magiccircle3
 --weld_humroot.C0 = magiccircle.CFrame:Inverse()
-weld_humroot3.C1	= CFrame.new(0,3,0)
+weld_humroot3.C1	= CFrame.new(0,1,0)
 print("Weld 3 Ready")
 
 SoundWAVE = {}
@@ -225,14 +225,14 @@ for n=1,3 do
 	i.Looped = audio.Looped
 	i.SoundId = audio.SoundId
 	i.Parent = audio.Parent
+	EQ = Instance.new("EqualizerSoundEffect")
+    EQ.Enabled = true
+    EQ.LowGain = if n == 1 then 3 else 0
+    EQ.MidGain = if n == 2 then 3 else 0
+    EQ.HighGain = if n == 3 then 3 else 0
+    EQ.Parent = i
 	table.insert(SoundWAVE,i)
 	i:Play()
-	--EQ = Instance.new("EqualizerSoundEffect")
-    --EQ.Enabled = true
-    --EQ.LowGain = if n == 1 then 3 else 0
-    --EQ.MidGain = if n == 2 then 3 else 0
-    --EQ.HighGain = if n == 3 then 3 else 0
-    --EQ.Parent = i
 end
 
 print("Audio Ready")
@@ -281,7 +281,7 @@ defsize = 1
 modes = 0
 sizingmode = 0
 audioifmodes1 = 0
-timerforsize = 1/60
+timerforsize = 1/5
 Remover = 0
 
 OnHealthChanged = function(h)
@@ -462,7 +462,8 @@ function weldhumrootpart(audioifmodes1)
 			wave.SoundId = audio.SoundId
 		end
 		if wave.TimePosition ~= audio.TimePosition then
-			wave.TimePosition = audio.TimePosition - (tonumber(i)*5)
+			--wave.TimePosition = audio.TimePosition - (tonumber(i)*5)
+			wave.TimePosition = audio.TimePosition
 		end
 		if audio.IsPaused == true then
 			wave:Pause()
@@ -577,7 +578,7 @@ local audio3 = owner.Character.HumanoidRootPart:WaitForChild("WAVE3")
 HB=game:GetService("RunService").RenderStepped;swait=function() return HB:Wait();end;
 while true do
 	local s = swait()
-    remote2:FireServer({audio.PlaybackLoudness+s,audio2.PlaybackLoudness+s,audio3.PlaybackLoudness+s})
+    remote2:FireServer({audio.PlaybackLoudness,audio2.PlaybackLoudness,audio3.PlaybackLoudness})
     --swait()
     --task.wait(1/120)
 end

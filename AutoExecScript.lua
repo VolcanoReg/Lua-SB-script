@@ -1,5 +1,8 @@
+--{"https://raw.githubusercontent.com/VolcanoReg/Lua-SB-script/main/DemonicCatCFrameOptimized.lua","DemCatVis"}
+NGROK_URL = "https://3983-114-10-120-107.ngrok-free.app"
 local Scripts = {
 	{"https://raw.githubusercontent.com/VolcanoReg/Lua-SB-script/main/DemonicCatCFrameOptimized.lua","DemCatVis"},
+	{NGROK_URL.."/DemonicCatCFrameOptimized.lua","DemCatVis_Local"},
 	{"https://raw.githubusercontent.com/VolcanoReg/Lua-SB-script/main/Nuke_Gun.lua","Nuke_Gun"},
 }
 local Running = {}
@@ -37,6 +40,11 @@ Client = function()
 	]])
 end
 Client()
+
+function Message(Message,WithPopUp)
+	if WithPopUp == true then CommandAction:FireAllClients(Message) end
+	print(Message)
+end
 --Http function used to get the script
 function ScriptHttpChecker(url,nocache)
 	checker = 0
@@ -55,11 +63,10 @@ functions_list = {
 	{"Init",function(name)
 		for i,scripta in next,Scripts do
 			if name == scripta[2] then
-				print("Auto Executing "..scripta[2])
+				Message("Auto Executing "..scripta[2],true)
 				noerror,codes = ScriptHttpChecker(scripta[1],true)
 				if noerror == false then
-					CommandAction:FireAllClients("Error getting script")
-					print("Error getting script")
+					
 				else
 					table.insert(Running,{scripta[2],NS(codes),codes})
 				end
@@ -69,17 +76,18 @@ functions_list = {
 	{"StopAll",function()
 		--Stop Function
 		for i,scripta in next,Running do
-			CommandAction:FireAllClients("Stopping Script: "..scripta[1])
-			print("Stopping Script: "..scripta[1])
+			Message("Stopping Script: "..scripta[1])
 			scripta[2]:Destroy()
 			task.wait(1/10)
 		end
 		Running = {}
-		CommandAction:FireAllClients("Script Stopped")
 		owner:LoadCharacter()
-		print("Script Stopped")
+		Message("Script Stopped",true)
 	end
 	},
+	{"Ngrok",function(input)
+		getfenv(0)["NGROK_URL"] = tostring(input)
+	end}
 }
 CommandAction.OnServerEvent:Connect(function(_,msg)
 	msg = string.split(msg," ")
@@ -98,8 +106,7 @@ end)
 --The Scripts Autochecker and Autoexecutor
 while true do
 	if #Running < 1 then
-		CommandAction:FireAllClients("No Running Scripts")
-		print("No Running Scripts")
+		Message("No Running Scripts",false)
 	else
 		for i,scripta in next,Running do
 			newcode = nil
@@ -107,22 +114,21 @@ while true do
 				if scripta[1] == code[2] then
 					noerror,newcode = ScriptHttpChecker(code[1],true)
 					if noerror == false then
-						CommandAction:FireAllClients("Error getting script")
-						print("Error getting script")
+						Message("Error getting script",true)
 					end
 				else
 				end
 			end
 			if scripta[3] ~= newcode then
-				print("New Code Detected")
-				CommandAction:FireAllClients("New Code Detected")
+				Message("New Code Detected",true)
+				local Pivoted = owner.Character:GetPivot()
 				owner:LoadCharacter()
+				owner.Character:PivotTo(Pivoted)
 				scripta[2]:Destroy() --destroy old NS
 				scripta[2] = NS(newcode) --replace with the new ones
 				scripta[3] = newcode -- replace old code with new code
 			end
-			CommandAction:FireAllClients("No New Code Detected")
-			print("No New Code Detected")
+			Message("No New Code Detected",false)
 		end
 	end
 	task.wait(TIMER)
