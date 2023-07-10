@@ -281,7 +281,7 @@ defsize = 1
 modes = 0
 sizingmode = 0
 audioifmodes1 = 0
-timerforsize = 0.15
+timerforsize = 1/60
 Remover = 0
 
 OnHealthChanged = function(h)
